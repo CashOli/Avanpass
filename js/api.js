@@ -1,12 +1,15 @@
 // ===================================
 // API - Interface avec SUPABASE
-// Version 2.0.0 - Migration Supabase
+// Version 2.2.0 - Corrections & Améliorations
 // ===================================
 
 const API = {
     // Configuration Supabase
     supabaseUrl: 'https://ckzicazdmqjytxtitumy.supabase.co',
     supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNremljYXpkbXFqeXR4dGl0dW15Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MzI1MDUsImV4cCI6MjA4MTQwODUwNX0.BIuiBhRNDWkwBqV2hxGaDUACfkhszT4jD1qPnw8Yp7Y',
+    
+    // Timeout pour les requêtes (en ms)
+    requestTimeout: 10000,
     
     // Headers communs pour toutes les requêtes
     getHeaders() {
@@ -15,6 +18,51 @@ const API = {
             'Authorization': `Bearer ${this.supabaseKey}`,
             'Content-Type': 'application/json',
             'Prefer': 'return=representation'
+        };
+    },
+    
+    // Wrapper fetch avec timeout et gestion d'erreurs
+    async fetchWithTimeout(url, options = {}) {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), this.requestTimeout);
+        
+        try {
+            const response = await fetch(url, {
+                ...options,
+                signal: controller.signal
+            });
+            clearTimeout(timeout);
+            return response;
+        } catch (error) {
+            clearTimeout(timeout);
+            if (error.name === 'AbortError') {
+                throw new Error('La requête a pris trop de temps. Vérifiez votre connexion internet.');
+            }
+            throw new Error('Erreur de connexion. Vérifiez votre connexion internet.');
+        }
+    },
+    
+    // Gérer les erreurs API de manière cohérente
+    handleApiError(error, operation) {
+        console.error(`❌ Erreur ${operation}:`, error);
+        
+        if (error.message.includes('connexion')) {
+            return {
+                success: false,
+                error: 'Problème de connexion. Vérifiez votre connexion internet.'
+            };
+        }
+        
+        if (error.message.includes('timeout')) {
+            return {
+                success: false,
+                error: 'La requête a pris trop de temps. Réessayez.'
+            };
+        }
+        
+        return {
+            success: false,
+            error: error.message || 'Une erreur est survenue'
         };
     },
     
@@ -30,7 +78,6 @@ const API = {
             if (params.sort) {
                 url += `&order=${params.sort}`;
             } else {
-                // Tri par défaut : created_at descendant
                 url += `&order=created_at.desc`;
             }
             
@@ -39,7 +86,7 @@ const API = {
                 url += `&or=(nom.ilike.*${params.search}*,prenom.ilike.*${params.search}*,email.ilike.*${params.search}*)`;
             }
             
-            const response = await fetch(url, {
+            const response = await this.fetchWithTimeout(url, {
                 method: 'GET',
                 headers: this.getHeaders()
             });
@@ -47,21 +94,20 @@ const API = {
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('❌ Erreur API list:', response.status, errorText);
-                throw new Error(`Erreur API: ${response.status}`);
+                throw new Error(`Erreur ${response.status}: ${errorText}`);
             }
             
             const data = await response.json();
             
-            // Retourner dans le format attendu par l'ancien code
             return {
+                success: true,
                 data: data,
                 total: data.length,
                 page: params.page || 1,
                 limit: limit
             };
         } catch (error) {
-            console.error(`❌ Erreur list ${tableName}:`, error);
-            throw error;
+            return this.handleApiError(error, `list ${tableName}`);
         }
     },
     
@@ -70,22 +116,22 @@ const API = {
         try {
             const url = `${this.supabaseUrl}/rest/v1/${tableName}?id=eq.${recordId}`;
             
-            const response = await fetch(url, {
+            const response = await this.fetchWithTimeout(url, {
                 method: 'GET',
                 headers: this.getHeaders()
             });
             
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error('❌ Erreur API get:', response.status, errorText);
-                throw new Error(`Erreur API: ${response.status}`);
+                throw new Error(`Erreur ${response.status}`);
             }
             
             const data = await response.json();
-            return data[0]; // Supabase retourne un array, on prend le premier élément
+            return {
+                success: true,
+                data: data[0] || null
+            };
         } catch (error) {
-            console.error(`❌ Erreur get ${tableName}/${recordId}:`, error);
-            throw error;
+            return this.handleApiError(error, `get ${tableName}/${recordId}`);
         }
     },
     
@@ -96,7 +142,7 @@ const API = {
             
             console.log(`📝 Création dans ${tableName}:`, data);
             
-            const response = await fetch(url, {
+            const response = await this.fetchWithTimeout(url, {
                 method: 'POST',
                 headers: this.getHeaders(),
                 body: JSON.stringify(data)
@@ -105,76 +151,74 @@ const API = {
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('❌ Erreur API create:', response.status, errorText);
-                throw new Error(`Erreur API: ${response.status} - ${errorText}`);
+                throw new Error(`Erreur ${response.status}: ${errorText}`);
             }
             
             const result = await response.json();
             console.log('✅ Création réussie:', result);
             
-            // Supabase retourne un array, on prend le premier élément
-            return Array.isArray(result) ? result[0] : result;
+            return {
+                success: true,
+                data: Array.isArray(result) ? result[0] : result
+            };
         } catch (error) {
-            console.error(`❌ Erreur create ${tableName}:`, error);
-            throw error;
+            return this.handleApiError(error, `create ${tableName}`);
         }
     },
     
-    // PUT - Mise à jour complète
+    // PATCH - Mise à jour
     async update(tableName, recordId, data) {
         try {
             const url = `${this.supabaseUrl}/rest/v1/${tableName}?id=eq.${recordId}`;
             
             console.log(`📝 Mise à jour ${tableName}/${recordId}:`, data);
             
-            const response = await fetch(url, {
-                method: 'PATCH', // Supabase utilise PATCH pour les mises à jour
+            const response = await this.fetchWithTimeout(url, {
+                method: 'PATCH',
                 headers: this.getHeaders(),
                 body: JSON.stringify(data)
             });
             
             if (!response.ok) {
                 const errorText = await response.text();
-                console.error('❌ Erreur API update:', response.status, errorText);
-                throw new Error(`Erreur API: ${response.status} - ${errorText}`);
+                throw new Error(`Erreur ${response.status}: ${errorText}`);
             }
             
             const result = await response.json();
             console.log('✅ Mise à jour réussie:', result);
             
-            return Array.isArray(result) ? result[0] : result;
+            return {
+                success: true,
+                data: Array.isArray(result) ? result[0] : result
+            };
         } catch (error) {
-            console.error(`❌ Erreur update ${tableName}/${recordId}:`, error);
-            throw error;
+            return this.handleApiError(error, `update ${tableName}/${recordId}`);
         }
     },
     
-    // PATCH - Mise à jour partielle
-    async patch(tableName, recordId, data) {
-        // Utilise la même méthode que update (Supabase utilise PATCH)
+    // Alias pour patch
+    patch(tableName, recordId, data) {
         return this.update(tableName, recordId, data);
     },
     
-    // DELETE - Supprimer un enregistrement (soft delete)
+    // DELETE - Supprimer un enregistrement
     async delete(tableName, recordId) {
         try {
             const url = `${this.supabaseUrl}/rest/v1/${tableName}?id=eq.${recordId}`;
             
-            const response = await fetch(url, {
+            const response = await this.fetchWithTimeout(url, {
                 method: 'DELETE',
                 headers: this.getHeaders()
             });
             
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error('❌ Erreur API delete:', response.status, errorText);
-                throw new Error(`Erreur API: ${response.status}`);
+                throw new Error(`Erreur ${response.status}`);
             }
             
             console.log(`✅ Suppression réussie: ${tableName}/${recordId}`);
-            return true;
+            return { success: true };
         } catch (error) {
-            console.error(`❌ Erreur delete ${tableName}/${recordId}:`, error);
-            throw error;
+            return this.handleApiError(error, `delete ${tableName}/${recordId}`);
         }
     },
     
@@ -187,21 +231,22 @@ const API = {
         try {
             const url = `${this.supabaseUrl}/rest/v1/clients?qr_token_client=eq.${qrToken}`;
             
-            const response = await fetch(url, {
+            const response = await this.fetchWithTimeout(url, {
                 method: 'GET',
                 headers: this.getHeaders()
             });
             
             if (!response.ok) {
-                console.error('❌ Erreur findClientByQR:', response.status);
-                return null;
+                return { success: false, data: null };
             }
             
             const data = await response.json();
-            return data[0] || null;
+            return {
+                success: true,
+                data: data[0] || null
+            };
         } catch (error) {
-            console.error('❌ Erreur findClientByQR:', error);
-            return null;
+            return this.handleApiError(error, 'findClientByQR');
         }
     },
     
@@ -210,25 +255,26 @@ const API = {
         try {
             const url = `${this.supabaseUrl}/rest/v1/boutiques?login_commercant=eq.${encodeURIComponent(login)}`;
             
-            const response = await fetch(url, {
+            const response = await this.fetchWithTimeout(url, {
                 method: 'GET',
                 headers: this.getHeaders()
             });
             
             if (!response.ok) {
-                console.error('❌ Erreur findBoutiqueByLogin:', response.status);
-                return null;
+                return { success: false, data: null };
             }
             
             const data = await response.json();
-            return data[0] || null;
+            return {
+                success: true,
+                data: data[0] || null
+            };
         } catch (error) {
-            console.error('❌ Erreur findBoutiqueByLogin:', error);
-            return null;
+            return this.handleApiError(error, 'findBoutiqueByLogin');
         }
     },
     
-    // Récupérer les transactions d'un client pour une boutique
+    // Récupérer les transactions d'un client
     async getClientTransactions(clientId, boutiqueId) {
         try {
             let url = `${this.supabaseUrl}/rest/v1/transactions?client_id=eq.${clientId}`;
@@ -239,29 +285,30 @@ const API = {
             
             url += `&order=date_heure.desc&limit=1000`;
             
-            const response = await fetch(url, {
+            const response = await this.fetchWithTimeout(url, {
                 method: 'GET',
                 headers: this.getHeaders()
             });
             
             if (!response.ok) {
-                console.error('❌ Erreur getClientTransactions:', response.status);
-                return [];
+                return { success: true, data: [] };
             }
             
             const data = await response.json();
-            return data;
+            return { success: true, data: data };
         } catch (error) {
             console.error('❌ Erreur getClientTransactions:', error);
-            return [];
+            return { success: true, data: [] };
         }
     },
     
-    // Calculer les points d'un client pour une boutique
+    // Calculer les points d'un client
     async calculatePoints(clientId, boutiqueId) {
         try {
-            const transactions = await this.getClientTransactions(clientId, boutiqueId);
-            const total = transactions.reduce((sum, t) => sum + (t.valeur_points || 0), 0);
+            const result = await this.getClientTransactions(clientId, boutiqueId);
+            if (!result.success) return 0;
+            
+            const total = result.data.reduce((sum, t) => sum + (t.valeur_points || 0), 0);
             console.log(`📊 Points calculés pour client ${clientId}: ${total}`);
             return total;
         } catch (error) {
@@ -275,33 +322,32 @@ const API = {
         try {
             const url = `${this.supabaseUrl}/rest/v1/codes_activation?code_activation=eq.${encodeURIComponent(code)}&statut=eq.disponible`;
             
-            const response = await fetch(url, {
+            const response = await this.fetchWithTimeout(url, {
                 method: 'GET',
                 headers: this.getHeaders()
             });
             
             if (!response.ok) {
-                console.error('❌ Erreur checkActivationCode:', response.status);
-                return null;
+                return { success: false, data: null };
             }
             
             const data = await response.json();
-            return data[0] || null;
+            return {
+                success: true,
+                data: data[0] || null
+            };
         } catch (error) {
-            console.error('❌ Erreur checkActivationCode:', error);
-            return null;
+            return this.handleApiError(error, 'checkActivationCode');
         }
     },
     
-    // ===================================
-    // Méthodes pour système MONTANT (v2.1.0)
-    // ===================================
-    
-    // Calculer le montant total dépensé par un client (programme MONTANT)
+    // Calculer le montant total dépensé (programme MONTANT)
     async calculateMontantDepense(clientId, boutiqueId) {
         try {
-            const transactions = await this.getClientTransactions(clientId, boutiqueId);
-            const total = transactions
+            const result = await this.getClientTransactions(clientId, boutiqueId);
+            if (!result.success) return 0;
+            
+            const total = result.data
                 .filter(t => t.type === 'passage_valide')
                 .reduce((sum, t) => sum + (parseFloat(t.montant_euros) || 0), 0);
             
@@ -313,17 +359,16 @@ const API = {
         }
     },
     
-    // Récupérer les paliers de récompenses disponibles (programme MONTANT)
+    // Récupérer les récompenses disponibles (programme MONTANT)
     async getRecompensesDisponibles(clientId, boutiqueId, paliersMontant) {
         try {
             const totalDepense = await this.calculateMontantDepense(clientId, boutiqueId);
-            const transactions = await this.getClientTransactions(clientId, boutiqueId);
+            const result = await this.getClientTransactions(clientId, boutiqueId);
+            const transactions = result.success ? result.data : [];
             
-            // Pour chaque palier, déterminer s'il est disponible et s'il a été utilisé
             const recompenses = paliersMontant.map(palier => {
                 const disponible = totalDepense >= palier.seuil;
                 
-                // Vérifier si la récompense a déjà été utilisée
                 const utilise = transactions.some(t => 
                     t.type === 'recompense_utilisee' && 
                     t.commentaire && 
@@ -339,7 +384,6 @@ const API = {
                 };
             });
             
-            // Trier par seuil croissant
             recompenses.sort((a, b) => a.seuil - b.seuil);
             
             console.log(`🎁 Récompenses pour client ${clientId}:`, recompenses);
@@ -350,13 +394,12 @@ const API = {
         }
     },
     
-    // Calculer les points/montant selon le type de programme
+    // Calculer la progression selon le type de programme
     async calculateProgress(clientId, boutiqueId, boutique) {
         try {
             const typeProgramme = boutique.type_programme || 'points';
             
             if (typeProgramme === 'montant') {
-                // Système MONTANT : retourner le montant total dépensé
                 const montantTotal = await this.calculateMontantDepense(clientId, boutiqueId);
                 const recompenses = await this.getRecompensesDisponibles(
                     clientId, 
@@ -370,7 +413,6 @@ const API = {
                     recompenses: recompenses
                 };
             } else {
-                // Système POINTS ou TAMPONS : retourner les points
                 const points = await this.calculatePoints(clientId, boutiqueId);
                 const seuil = boutique.recompense_seuil_points || boutique.tampons_nombre || 10;
                 
