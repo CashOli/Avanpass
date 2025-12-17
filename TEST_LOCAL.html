@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Supabase - AvanPass</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2563eb;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            color: #065f46;
+        }
+        .error {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            color: #991b1b;
+        }
+        .info {
+            background: #dbeafe;
+            border: 2px solid #3b82f6;
+            color: #1e40af;
+        }
+        .loading {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h1>🧪 Test API Supabase - AvanPass</h1>
+        <p><strong>Objectif</strong> : Vérifier que Supabase fonctionne correctement</p>
+        
+        <button onclick="testConnection()">1️⃣ Test Connexion API</button>
+        <button onclick="testListClients()">2️⃣ Lister les Clients</button>
+        <button onclick="testCreateTransaction()">3️⃣ Créer une Transaction</button>
+        <button onclick="testFullFlow()">🚀 Test Complet</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Configuration Supabase
+        const SUPABASE_URL = 'https://ckzicazdmqjytxtitumy.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNremljYXpkbXFqeXR4dGl0dW15Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MzI1MDUsImV4cCI6MjA4MTQwODUwNX0.BIuiBhRNDWkwBqV2hxGaDUACfkhszT4jD1qPnw8Yp7Y';
+
+        function showResult(message, type = 'info') {
+            const result = document.getElementById('result');
+            result.className = `result ${type}`;
+            result.textContent = message;
+        }
+
+        function getHeaders() {
+            return {
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=representation'
+            };
+        }
+
+        // Test 1 : Connexion à l'API
+        async function testConnection() {
+            showResult('⏳ Test de connexion en cours...', 'loading');
+            
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/`, {
+                    method: 'GET',
+                    headers: getHeaders()
+                });
+
+                if (response.ok) {
+                    showResult(`✅ CONNEXION RÉUSSIE !\n\nStatut HTTP : ${response.status}\nAPI URL : ${SUPABASE_URL}`, 'success');
+                } else {
+                    showResult(`❌ ERREUR DE CONNEXION\n\nStatut HTTP : ${response.status}\nMessage : ${await response.text()}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ ERREUR RÉSEAU\n\n${error.message}`, 'error');
+            }
+        }
+
+        // Test 2 : Lister les clients
+        async function testListClients() {
+            showResult('⏳ Récupération des clients...', 'loading');
+            
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/clients?limit=10`, {
+                    method: 'GET',
+                    headers: getHeaders()
+                });
+
+                if (response.ok) {
+                    const clients = await response.json();
+                    showResult(`✅ CLIENTS RÉCUPÉRÉS\n\nNombre : ${clients.length}\n\nDétails :\n${JSON.stringify(clients.map(c => ({
+                        nom: c.nom,
+                        prenom: c.prenom,
+                        email: c.email,
+                        statut: c.statut_carte
+                    })), null, 2)}`, 'success');
+                } else {
+                    showResult(`❌ ERREUR RÉCUPÉRATION CLIENTS\n\nStatut HTTP : ${response.status}\nMessage : ${await response.text()}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ ERREUR\n\n${error.message}`, 'error');
+            }
+        }
+
+        // Test 3 : Créer une transaction TEST
+        async function testCreateTransaction() {
+            showResult('⏳ Création d\'une transaction de test...', 'loading');
+            
+            try {
+                // D'abord, récupérer un client et une boutique
+                const clientsResponse = await fetch(`${SUPABASE_URL}/rest/v1/clients?limit=1`, {
+                    method: 'GET',
+                    headers: getHeaders()
+                });
+                const clients = await clientsResponse.json();
+                
+                const boutiquesResponse = await fetch(`${SUPABASE_URL}/rest/v1/boutiques?limit=1`, {
+                    method: 'GET',
+                    headers: getHeaders()
+                });
+                const boutiques = await boutiquesResponse.json();
+
+                if (clients.length === 0 || boutiques.length === 0) {
+                    showResult('❌ ERREUR : Aucun client ou boutique trouvé', 'error');
+                    return;
+                }
+
+                const transactionData = {
+                    client_id: clients[0].id,
+                    boutique_id: boutiques[0].id,
+                    type: 'passage_valide',
+                    valeur_points: 1,
+                    date_heure: new Date().toISOString(),
+                    commentaire: 'Test validation Supabase',
+                    operateur: boutiques[0].id
+                };
+
+                console.log('📝 Transaction à créer :', transactionData);
+
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/transactions`, {
+                    method: 'POST',
+                    headers: getHeaders(),
+                    body: JSON.stringify(transactionData)
+                });
+
+                if (response.ok || response.status === 201) {
+                    const result = await response.json();
+                    showResult(`✅ TRANSACTION CRÉÉE AVEC SUCCÈS !\n\n🎉 PROBLÈME 403 RÉSOLU !\n\nDétails :\n${JSON.stringify(result, null, 2)}`, 'success');
+                } else {
+                    const errorText = await response.text();
+                    showResult(`❌ ERREUR CRÉATION TRANSACTION\n\nStatut HTTP : ${response.status}\nMessage : ${errorText}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ ERREUR\n\n${error.message}\n\nStack : ${error.stack}`, 'error');
+            }
+        }
+
+        // Test complet
+        async function testFullFlow() {
+            showResult('⏳ Exécution du test complet...', 'loading');
+            
+            const results = [];
+            
+            // Test 1
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/`, {
+                    method: 'GET',
+                    headers: getHeaders()
+                });
+                results.push(`1️⃣ Connexion : ${response.ok ? '✅ OK' : '❌ ÉCHEC'}`);
+            } catch (e) {
+                results.push(`1️⃣ Connexion : ❌ ERREUR (${e.message})`);
+            }
+
+            // Test 2
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/clients?limit=1`, {
+                    method: 'GET',
+                    headers: getHeaders()
+                });
+                const clients = await response.json();
+                results.push(`2️⃣ Lister clients : ${response.ok ? `✅ OK (${clients.length} clients)` : '❌ ÉCHEC'}`);
+            } catch (e) {
+                results.push(`2️⃣ Lister clients : ❌ ERREUR (${e.message})`);
+            }
+
+            // Test 3
+            try {
+                const clientsResponse = await fetch(`${SUPABASE_URL}/rest/v1/clients?limit=1`, {
+                    method: 'GET',
+                    headers: getHeaders()
+                });
+                const clients = await clientsResponse.json();
+                
+                const boutiquesResponse = await fetch(`${SUPABASE_URL}/rest/v1/boutiques?limit=1`, {
+                    method: 'GET',
+                    headers: getHeaders()
+                });
+                const boutiques = await boutiquesResponse.json();
+
+                const transactionData = {
+                    client_id: clients[0].id,
+                    boutique_id: boutiques[0].id,
+                    type: 'passage_valide',
+                    valeur_points: 1,
+                    date_heure: new Date().toISOString(),
+                    commentaire: 'Test complet Supabase',
+                    operateur: boutiques[0].id
+                };
+
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/transactions`, {
+                    method: 'POST',
+                    headers: getHeaders(),
+                    body: JSON.stringify(transactionData)
+                });
+
+                results.push(`3️⃣ Créer transaction : ${response.ok || response.status === 201 ? '✅ OK (403 RÉSOLU !)' : `❌ ÉCHEC (${response.status})`}`);
+            } catch (e) {
+                results.push(`3️⃣ Créer transaction : ❌ ERREUR (${e.message})`);
+            }
+
+            const allOk = results.every(r => r.includes('✅'));
+            showResult(`🧪 RÉSULTATS DU TEST COMPLET\n\n${results.join('\n')}\n\n${allOk ? '🎉 TOUS LES TESTS RÉUSSIS !\n\nSupabase fonctionne parfaitement !\nLe problème 403 est résolu !' : '⚠️ Certains tests ont échoué'}`, allOk ? 'success' : 'error');
+        }
+
+        // Auto-test au chargement
+        window.addEventListener('load', () => {
+            showResult('👋 Prêt pour les tests !\n\nCliquez sur un bouton pour commencer.', 'info');
+        });
+    </script>
+</body>
+</html>

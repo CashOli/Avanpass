@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎴 Test Design Cartes Premium - AvanPass</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .test-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        .test-header h1 {
+            margin: 0 0 1rem 0;
+            color: #667eea;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .test-section {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+        .test-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .feature-list {
+            background: rgba(255,255,255,0.95);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🎴 Test Design Cartes Premium AvanPass</h1>
+            <p style="font-size: 1.1rem; color: #666; margin: 0;">
+                Démonstration des cartes virtuelles avec bandes décoratives et contours élégants
+            </p>
+            <div style="margin-top: 1rem; padding: 1rem; background: #f0f0f0; border-radius: 8px;">
+                <strong>⚠️ Instructions :</strong> Survolez les cartes (desktop) pour voir les effets interactifs premium !
+            </div>
+        </div>
+
+        <div class="test-grid">
+            <!-- Carte Café -->
+            <div class="test-section">
+                <div class="test-title">☕ Café du Coin</div>
+                <div class="wallet-card" data-type="cafe">
+                    <div class="card-decorative-band" style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=300&fit=crop&q=80');"></div>
+                    
+                    <div class="card-header">
+                        <div class="card-logo">☕</div>
+                        <div class="card-status active">✓ Active</div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="card-name">☕ Café du Coin</div>
+                        
+                        <div class="qr-code-container" style="background: white; padding: 1rem; border-radius: 12px;">
+                            <div style="width: 200px; height: 200px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+                                QR CODE
+                            </div>
+                        </div>
+                        
+                        <div class="points-info">
+                            <div class="points-label">Points de fidélité</div>
+                            <div class="points-value">7 / 10</div>
+                            
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 70%"></div>
+                            </div>
+                            
+                            <div style="background: rgba(255, 255, 255, 0.15); padding: 1rem; border-radius: 12px; margin-top: 1rem; border: 1px solid rgba(255, 255, 255, 0.2);">
+                                <p style="opacity: 0.95; margin: 0; font-weight: 600;">
+                                    <i class="fas fa-arrow-up"></i> Encore 3 passages pour :
+                                </p>
+                                <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; font-weight: 700;">
+                                    1 café offert ☕
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Boulangerie -->
+            <div class="test-section">
+                <div class="test-title">🥖 Boulangerie Martin</div>
+                <div class="wallet-card" data-type="boulangerie">
+                    <div class="card-decorative-band" style="background-image: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=300&fit=crop&q=80');"></div>
+                    
+                    <div class="card-header">
+                        <div class="card-logo">🥖</div>
+                        <div class="card-status active">✓ Active</div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="card-name">🥖 Boulangerie Martin</div>
+                        
+                        <div class="qr-code-container" style="background: white; padding: 1rem; border-radius: 12px;">
+                            <div style="width: 200px; height: 200px; background: linear-gradient(135deg, #F4A460, #FFD700); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+                                QR CODE
+                            </div>
+                        </div>
+                        
+                        <div class="points-info">
+                            <div class="points-label">Points de fidélité</div>
+                            <div class="points-value">10 / 10</div>
+                            
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                            
+                            <div class="reward-badge">
+                                <i class="fas fa-trophy"></i> Récompense Débloquée !<br>
+                                <strong style="font-size: 1.2rem;">1 croissant offert 🥐</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Salon -->
+            <div class="test-section">
+                <div class="test-title">💇 Salon Élégance</div>
+                <div class="wallet-card" data-type="salon">
+                    <div class="card-decorative-band" style="background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=300&fit=crop&q=80');"></div>
+                    
+                    <div class="card-header">
+                        <div class="card-logo">💇</div>
+                        <div class="card-status active">✓ Active</div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="card-name">💇 Salon Élégance</div>
+                        
+                        <div class="qr-code-container" style="background: white; padding: 1rem; border-radius: 12px;">
+                            <div style="width: 200px; height: 200px; background: linear-gradient(135deg, #FF1493, #FF69B4); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+                                QR CODE
+                            </div>
+                        </div>
+                        
+                        <div class="points-info">
+                            <div class="points-label">Points de fidélité</div>
+                            <div class="points-value">4 / 5</div>
+                            
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                            
+                            <div style="background: rgba(255, 255, 255, 0.15); padding: 1rem; border-radius: 12px; margin-top: 1rem; border: 1px solid rgba(255, 255, 255, 0.2);">
+                                <p style="opacity: 0.95; margin: 0; font-weight: 600;">
+                                    <i class="fas fa-arrow-up"></i> Encore 1 passage pour :
+                                </p>
+                                <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; font-weight: 700;">
+                                    1 coupe offerte 💇
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Fonctionnalités -->
+        <div style="background: white; padding: 2rem; border-radius: 16px; margin-top: 2rem; box-shadow: 0 8px 32px rgba(0,0,0,0.2);">
+            <h2 style="color: #667eea; text-align: center; margin-bottom: 2rem;">✨ Fonctionnalités du Design Premium</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div>
+                    <h3 style="color: #764ba2;">🖼️ Bande Décorative</h3>
+                    <ul class="feature-list">
+                        <li>✅ Image personnalisée par type de commerce</li>
+                        <li>✅ Sources Unsplash haute qualité</li>
+                        <li>✅ Hauteur optimale 120px</li>
+                        <li>✅ Effets de dégradé et ombres</li>
+                        <li>✅ Séparation élégante avec le contenu</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 style="color: #764ba2;">🔲 Contour Élégant</h3>
+                    <ul class="feature-list">
+                        <li>✅ Bordure double couche (2.5px + outline)</li>
+                        <li>✅ Effet 3D avec ombres multiples</li>
+                        <li>✅ Brillance sur les bords</li>
+                        <li>✅ Contour lumineux au survol</li>
+                        <li>✅ Style carte physique premium</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 style="color: #764ba2;">✨ Animations</h3>
+                    <ul class="feature-list">
+                        <li>✅ Apparition avec rebond élastique</li>
+                        <li>✅ Élévation au survol (+12px)</li>
+                        <li>✅ Rotation 3D légère (2deg)</li>
+                        <li>✅ Halo lumineux (60px)</li>
+                        <li>✅ Transitions fluides (0.4s)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; padding: 1.5rem; background: #f0f0f0; border-radius: 12px;">
+                <h3 style="color: #667eea; margin-top: 0;">🚀 Pour tester dans l'application :</h3>
+                <div class="code-block">
+// 1. Ouvrir index.html<br>
+// 2. Aller dans "Client" → "Voir ma carte"<br>
+// 3. Observer les nouvelles bandes décoratives<br>
+// 4. Survoler les cartes (desktop) pour voir les effets<br>
+<br>
+// Console rapide pour tester :<br>
+API.list('clients').then(r => console.log(`Clients actifs : ${r.data.length}`));
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

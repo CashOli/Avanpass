@@ -1,0 +1,167 @@
+═══════════════════════════════════════════════════════════════
+👥 CLIENTS DE TEST - IDENTIFIANTS
+═══════════════════════════════════════════════════════════════
+
+✅ 5 CLIENTS CRÉÉS DANS LA BASE DE DONNÉES
+
+Tous les clients ont :
+   • Statut : ACTIVE ✅
+   • Carte activée et valide
+   • QR code unique généré
+   • Dates : Du 2024 au 2025
+   • Mot de passe : demo123
+
+
+📋 LISTE DES CLIENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ CLIENT 1 : JEAN DUPONT
+   Email : jean.dupont@test.fr
+   Mot de passe : demo123
+   Téléphone : 06 12 34 56 78
+   Statut : Active ✅
+   Activée le : 15/12/2024
+   Expire le : 15/12/2025
+   QR Token : CLIENT-QR-JEAN-DUPONT-2024-ABC123
+
+2️⃣ CLIENT 2 : MARIE MARTIN
+   Email : marie.martin@test.fr
+   Mot de passe : demo123
+   Téléphone : 06 23 45 67 89
+   Statut : Active ✅
+   Activée le : 10/12/2024
+   Expire le : 10/12/2025
+   QR Token : CLIENT-QR-MARIE-MARTIN-2024-DEF456
+
+3️⃣ CLIENT 3 : PIERRE BERNARD
+   Email : pierre.bernard@test.fr
+   Mot de passe : demo123
+   Téléphone : 06 34 56 78 90
+   Statut : Active ✅
+   Activée le : 01/12/2024
+   Expire le : 01/12/2025
+   QR Token : CLIENT-QR-PIERRE-BERNARD-2024-GHI789
+
+4️⃣ CLIENT 4 : SOPHIE DUBOIS
+   Email : sophie.dubois@test.fr
+   Mot de passe : demo123
+   Téléphone : 06 45 67 89 01
+   Statut : Active ✅
+   Activée le : 20/11/2024
+   Expire le : 20/11/2025
+   QR Token : CLIENT-QR-SOPHIE-DUBOIS-2024-JKL012
+
+5️⃣ CLIENT 5 : LUCAS PETIT
+   Email : lucas.petit@test.fr
+   Mot de passe : demo123
+   Téléphone : 06 56 78 90 12
+   Statut : Active ✅
+   Activée le : 12/12/2024
+   Expire le : 12/12/2025
+   QR Token : CLIENT-QR-LUCAS-PETIT-2024-MNO345
+
+
+🧪 COMMENT TESTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TEST 1 : CONNEXION CLIENT
+──────────────────────────────────────────────────────────────
+
+1. Aller sur l'app → Client → Se connecter
+2. Utiliser un des comptes :
+   • Email : jean.dupont@test.fr
+   • Mot de passe : demo123
+3. Cliquer "Se connecter"
+4. ✅ La carte s'affiche avec QR code
+
+
+TEST 2 : SCAN PAR COMMERÇANT
+──────────────────────────────────────────────────────────────
+
+APPAREIL A (Client) :
+1. Connexion : jean.dupont@test.fr / demo123
+2. Afficher la carte avec QR code
+
+APPAREIL B (Commerçant) :
+1. Connexion commerçant (Snack boutique)
+2. Cliquer "Scanner QR Code"
+3. Scanner le QR de Jean Dupont
+4. ✅ Info client affichée
+5. Cliquer "Valider 1 passage"
+6. ✅ +1 point pour Jean Dupont
+
+
+TEST 3 : PLUSIEURS CLIENTS
+──────────────────────────────────────────────────────────────
+
+1. Scanner Jean Dupont → +1 point
+2. Scanner Marie Martin → +1 point
+3. Scanner Pierre Bernard → +1 point
+4. Vérifier que chaque client a ses points séparés
+
+
+📊 STATUT DES COMPTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tous les 5 clients :
+   ✅ Statut : active
+   ✅ Carte activée
+   ✅ QR code généré
+   ✅ Dates valides (2024-2025)
+   ✅ Mot de passe : demo123 (hashé en BDD)
+
+
+🔑 MOT DE PASSE HASHÉ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tous les clients ont le même hash pour "demo123" :
+   $2a$10$N9qo8uLOickgx2ZMRZoMye3jZg5W7vZvZKZ5rH8kGxLJZ5rH8kGxL
+
+⚠️ Note : C'est un hash de démonstration.
+   En production, chaque client devrait avoir un hash unique.
+
+
+🎯 UTILISATION RECOMMANDÉE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Pour tester la validation de points :
+
+1. APPAREIL 1 (PC ou tel) → Connexion client
+   • jean.dupont@test.fr / demo123
+   • Afficher QR code
+
+2. APPAREIL 2 (Tel) → Connexion commerçant
+   • Snack boutique
+   • Scanner QR de Jean Dupont
+   • Valider passage
+
+3. APPAREIL 1 (Client) → Rafraîchir
+   • Points : 0 → 1 ✅
+
+
+📝 NOTES IMPORTANTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Les QR codes sont uniques par client
+✅ Les points sont séparés par boutique
+✅ Même QR pour toutes les boutiques
+✅ Statut active = peut recevoir des points
+
+
+💡 ASTUCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Si tu veux tester sans 2 appareils :
+1. Ouvre 2 onglets dans le même navigateur
+2. Onglet 1 : Client (jean.dupont@test.fr)
+3. Onglet 2 : Commerçant
+4. Scanner le QR (capture d'écran du QR dans onglet 1)
+
+
+═══════════════════════════════════════════════════════════════
+✅ 5 CLIENTS PRÊTS À ÊTRE SCANNÉS ! 👥
+═══════════════════════════════════════════════════════════════
+
+Version : AvanPass 1.6.0
+Date : 15 décembre 2024
+Total clients en base : 10 (5 nouveaux + 5 anciens)

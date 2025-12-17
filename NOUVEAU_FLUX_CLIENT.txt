@@ -1,0 +1,322 @@
+═══════════════════════════════════════════════════════════════
+✅ NOUVEAU FLUX CLIENT SÉPARÉ (INSCRIPTION / ACTIVATION)
+═══════════════════════════════════════════════════════════════
+
+🎯 PROBLÈMES RÉSOLUS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ "Aucune carte active pour voir ma carte"
+❌ "Erreur de l'activation"
+
+✅ Flux séparé comme pour PC
+✅ Inscription SANS code
+✅ Activation AVEC code (séparée)
+
+
+🎬 NOUVEAU FLUX CLIENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌────────────────────────────────┐
+│   ÉTAPE 1 : ÉCRAN DE CHOIX     │
+├────────────────────────────────┤
+│  [ 📝 S'inscrire ]             │
+│  [ 🔑 Se connecter ]           │
+│  [ 🎫 Activer ma carte ]       │
+└────────────────────────────────┘
+
+         ↓
+
+┌────────────────────────────────┐
+│   ÉTAPE 2A : INSCRIPTION       │
+├────────────────────────────────┤
+│  Email *                       │
+│  Mot de passe *                │
+│  Prénom *                      │
+│  Nom *                         │
+│  Téléphone                     │
+│                                │
+│  → Statut : INACTIVE           │
+│  → Pas de QR code              │
+│  → Carte NON activée           │
+└────────────────────────────────┘
+
+         ↓
+
+┌────────────────────────────────┐
+│   ÉTAPE 2B : ACTIVATION        │
+├────────────────────────────────┤
+│  Email (identifiants)          │
+│  Mot de passe                  │
+│  Code d'activation             │
+│                                │
+│  → Statut : ACTIVE             │
+│  → QR code généré              │
+│  → Dates calculées (+1 an)     │
+└────────────────────────────────┘
+
+         ↓
+
+┌────────────────────────────────┐
+│   ÉTAPE 2C : CONNEXION         │
+├────────────────────────────────┤
+│  Email                         │
+│  Mot de passe                  │
+│                                │
+│  → Vérification statut         │
+│  → Affichage carte si active   │
+└────────────────────────────────┘
+
+
+📝 DÉTAILS DES ÉTAPES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ INSCRIPTION (register)
+   ✅ Email unique vérifié
+   ✅ Mot de passe hashé (bcrypt)
+   ✅ Prénom, Nom, Téléphone
+   ❌ PAS de code d'activation
+   → Client créé avec statut_carte = 'inactive'
+   → qr_token_client = '' (vide)
+   → date_activation = null
+   → date_expiration = null
+
+2️⃣ ACTIVATION (activateCard)
+   ✅ Email + mot de passe (identification)
+   ✅ Code d'activation vérifié
+   ✅ QR token généré
+   ✅ Dates calculées (+1 an)
+   → Mise à jour client :
+      • statut_carte = 'active'
+      • qr_token_client = UUID unique
+      • date_activation = aujourd'hui
+      • date_expiration = +1 an
+   → Code marqué comme utilisé
+   → Connexion automatique
+
+3️⃣ CONNEXION (login)
+   ✅ Email + mot de passe
+   ✅ Vérification statut carte :
+      • inactive → Redirection activation
+      • suspendue → Message erreur
+      • expiree → Message erreur
+      • active → Affichage carte ✅
+
+
+🎨 INTERFACES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ÉCRAN CHOIX (client-choice)
+┌────────────────────────────────┐
+│  ← Espace Client               │
+│                                │
+│  ┌──────────────────────────┐  │
+│  │  📝 S'inscrire           │  │
+│  │  Créer mon compte client │  │
+│  └──────────────────────────┘  │
+│                                │
+│  ┌──────────────────────────┐  │
+│  │  🔑 Se connecter         │  │
+│  │  J'ai déjà un compte     │  │
+│  └──────────────────────────┘  │
+│                                │
+│  ┌──────────────────────────┐  │
+│  │  🎫 Activer ma carte     │  │
+│  │  J'ai un code activation │  │
+│  └──────────────────────────┘  │
+└────────────────────────────────┘
+
+
+ÉCRAN INSCRIPTION (client-registration)
+┌────────────────────────────────┐
+│  ← Créer mon compte            │
+│                                │
+│  Email *                       │
+│  [votre@email.com_________]    │
+│                                │
+│  Mot de passe * (min 6)        │
+│  [••••••••_______________]     │
+│                                │
+│  Prénom *                      │
+│  [Jean___________________]     │
+│                                │
+│  Nom *                         │
+│  [Dupont_________________]     │
+│                                │
+│  Téléphone                     │
+│  [06 12 34 56 78_________]     │
+│                                │
+│  [ Créer mon compte ]          │
+│                                │
+│  ℹ️ Après inscription, vous    │
+│  devrez activer votre carte    │
+│  avec un code d'activation     │
+└────────────────────────────────┘
+
+
+ÉCRAN ACTIVATION (client-activation)
+┌────────────────────────────────┐
+│  ← Activer ma carte            │
+│                                │
+│  🎫                            │
+│                                │
+│  Vous devez être inscrit et    │
+│  connecté pour activer votre   │
+│  carte.                        │
+│                                │
+│  Email                         │
+│  [votre@email.com_________]    │
+│                                │
+│  Mot de passe                  │
+│  [••••••••_______________]     │
+│                                │
+│  Code d'activation             │
+│  [CODE-ACTIVATION________]     │
+│                                │
+│  [ Activer ma carte ]          │
+└────────────────────────────────┘
+
+
+ÉCRAN CONNEXION (client-login)
+┌────────────────────────────────┐
+│  ← Connexion                   │
+│                                │
+│  👤                            │
+│                                │
+│  Email                         │
+│  [votre@email.com_________]    │
+│                                │
+│  Mot de passe                  │
+│  [••••••••_______________]     │
+│                                │
+│  [ Se connecter ]              │
+└────────────────────────────────┘
+
+
+🔧 CODE TECHNIQUE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+INSCRIPTION
+```javascript
+const clientData = {
+    email: email,
+    password_hash: passwordHash,
+    prenom: prenom,
+    nom: nom,
+    telephone: telephone,
+    statut_carte: 'inactive',    // ← INACTIVE
+    date_activation: null,        // ← NULL
+    date_expiration: null,        // ← NULL
+    qr_token_client: ''           // ← VIDE
+};
+```
+
+ACTIVATION
+```javascript
+// Générer QR et dates
+const qrToken = Utils.generateQRToken();
+const dateActivation = new Date();
+const dateExpiration = new Date(dateActivation);
+dateExpiration.setFullYear(dateExpiration.getFullYear() + 1); // +1 an
+
+// Mettre à jour le client
+await API.patch('clients', client.id, {
+    statut_carte: 'active',
+    date_activation: dateActivation.toISOString(),
+    date_expiration: dateExpiration.toISOString(),
+    qr_token_client: qrToken
+});
+```
+
+CONNEXION
+```javascript
+// Vérifier statut
+if (client.statut_carte === 'inactive') {
+    // → Redirection vers activation
+    this.showActivation();
+} else if (client.statut_carte === 'active') {
+    // → Affichage carte
+    this.showCard();
+}
+```
+
+
+📂 FICHIERS MODIFIÉS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ index.html
+   • Ajout #client-choice (3 boutons)
+   • Ajout #client-activation
+   • Modification structure
+
+✅ js/client.js (complètement réécrit - 31 Ko)
+   • showChoice() → Écran 3 boutons
+   • showRegistration() → Formulaire inscription
+   • register() → Inscription sans code
+   • showActivation() → Formulaire activation
+   • activateCard() → Activation avec code
+   • login() → Vérification statut carte
+   • Dates : "Valide du X au Y"
+
+✅ CHANGELOG.md
+   • Version 1.6.0
+
+
+🧪 POUR TESTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ VIDER LE CACHE OBLIGATOIRE !
+
+1. Ctrl + Shift + R (plusieurs fois)
+2. Ou vider cache Chrome complètement
+3. Fermer et rouvrir Chrome
+
+TEST COMPLET :
+
+1️⃣ S'INSCRIRE
+   • Aller sur "Client"
+   • Cliquer "S'inscrire"
+   • Email : test@nouveau.fr
+   • Mot de passe : test123
+   • Prénom/Nom : Test Nouveau
+   • Créer mon compte
+   • → Message : "Compte créé"
+   • → Redirection vers activation
+
+2️⃣ ACTIVER
+   • Email : test@nouveau.fr
+   • Mot de passe : test123
+   • Code : (code valide)
+   • Activer ma carte
+   • → Message : "Carte activée"
+   • → Affichage carte avec QR
+
+3️⃣ SE DÉCONNECTER ET RECONNECTER
+   • Cliquer "Logout"
+   • Aller sur "Client" → "Se connecter"
+   • Email + mot de passe
+   • → Carte affichée directement
+
+
+❓ FAQ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Q : Puis-je me connecter avant d'activer ?
+A : ✅ Oui, mais un message vous demandera d'activer d'abord
+
+Q : Le code d'activation est-il obligatoire ?
+A : ✅ Oui, pour activer la carte (pas pour s'inscrire)
+
+Q : Combien de codes d'activation faut-il ?
+A : 1 code = 1 activation (code consommé)
+
+Q : Puis-je réactiver une carte expirée ?
+A : ⚠️ Pas encore implémenté (à venir)
+
+
+═══════════════════════════════════════════════════════════════
+🚀 VIDEZ LE CACHE ET TESTEZ LE NOUVEAU FLUX ! 💪
+═══════════════════════════════════════════════════════════════
+
+Version : AvanPass 1.6.0
+Date : 15 décembre 2024
+Statut : ✅ Flux séparé implémenté

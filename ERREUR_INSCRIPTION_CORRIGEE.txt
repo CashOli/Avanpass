@@ -1,0 +1,102 @@
+═══════════════════════════════════════════════════════════════
+✅ ERREUR D'INSCRIPTION - DIAGNOSTIC AJOUTÉ
+═══════════════════════════════════════════════════════════════
+
+❌ PROBLÈME SIGNALÉ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Message affiché lors de la création de compte :
+   "Erreur lors de l'inscription. Veuillez réessayer."
+
+Sans détails sur la cause de l'erreur.
+
+
+✅ SOLUTION APPLIQUÉE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Maintenant, une POPUP s'affichera automatiquement avec :
+
+   ✅ Le message exact de l'erreur API
+   ✅ Les données que vous avez saisies
+   ✅ Un diagnostic automatique
+   ✅ La cause probable du problème
+
+
+📋 EXEMPLE DE POPUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Quand vous essayez de créer un compte et qu'une erreur survient :
+
+┌───────────────────────────────────────────┐
+│ 🔍 DIAGNOSTIC ERREUR INSCRIPTION:        │
+│                                           │
+│ Message: Request failed with status 404  │
+│                                           │
+│ Données tentées:                          │
+│ - Nom boutique: Café du Coin              │
+│ - Email: contact@maboutique.fr            │
+│ - Seuil: 10                               │
+│ - Récompense: 1 café offert               │
+│                                           │
+│ ⚠️ Code 404: Table non trouvée            │
+│ Cause: La table "boutiques" n'existe pas  │
+│                                           │
+│            [ OK ]                         │
+└───────────────────────────────────────────┘
+
+
+🧪 POUR TESTER MAINTENANT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Rafraîchir l'app (vider cache)
+   → Appui long sur bouton rafraîchir
+   → "Vider cache et actualiser"
+
+2. Aller sur "Commerçant"
+
+3. Cliquer "Créer mon compte boutique"
+
+4. Remplir le formulaire avec VOS données :
+   • Nom boutique : ex. "Ma Boutique"
+   • Email : ex. "mon@email.fr"
+   • Mot de passe : ex. "demo123"
+   • Seuil : ex. 10
+   • Récompense : ex. "1 produit offert"
+
+5. Cliquer "Créer mon compte"
+
+6. SI ERREUR → LA POPUP S'AFFICHE AUTOMATIQUEMENT
+
+
+📸 ENVOYEZ-MOI LA POPUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Quand la popup s'affiche :
+1. Prenez une CAPTURE D'ÉCRAN 📸
+2. Ou copiez le TEXTE exact
+3. Envoyez-le moi
+
+Je pourrai alors corriger l'erreur IMMÉDIATEMENT ! 🚀
+
+
+🎯 CAUSES POSSIBLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Code 400 → Données invalides (champ manquant ou invalide)
+Code 404 → Table "boutiques" introuvable dans la base
+Code 500 → Erreur serveur (problème API)
+
+
+📂 FICHIERS MODIFIÉS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ js/commercant.js  → Fonction register() (lignes 207-226)
+                       Ajout du diagnostic détaillé
+
+
+═══════════════════════════════════════════════════════════════
+🚀 TESTEZ MAINTENANT ! Rafraîchissez et réessayez ! 📱
+═══════════════════════════════════════════════════════════════
+
+Version : AvanPass 1.3.2
+Date : 15 décembre 2024

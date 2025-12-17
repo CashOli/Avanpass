@@ -1,0 +1,130 @@
+===========================================
+TEST DEBUG CONNEXION CLIENT
+===========================================
+
+INSTRUCTIONS :
+1. Aller sur : https://58942688-c805-48f2-a1c5-03de286e6110.vip.gensparksite.com
+2. Appuyer sur F12 (Console)
+3. Copier-coller ce code
+4. Appuyer sur ENTRÉE
+5. Observer les résultats
+
+===========================================
+CODE À COPIER
+===========================================
+
+(async function() {
+    console.clear();
+    console.log('%c🔍 TEST DEBUG CONNEXION CLIENT', 'background: #667eea; color: white; padding: 10px; font-size: 16px; font-weight: bold;');
+    console.log('');
+    
+    const email = 'jean.dupont@test.fr';
+    const password = 'demo123';
+    
+    console.log('📧 Email testé:', email);
+    console.log('🔑 Mot de passe testé:', password);
+    console.log('');
+    
+    // Étape 1 : Chercher le client
+    console.log('%c📋 ÉTAPE 1 : Recherche du client...', 'color: #3b82f6; font-weight: bold;');
+    try {
+        const clientsResponse = await API.list('clients', { limit: 1000 });
+        console.log(`   Nombre de clients trouvés: ${clientsResponse.data.length}`);
+        
+        const client = clientsResponse.data.find(c => c.email && c.email.toLowerCase() === email.toLowerCase());
+        
+        if (!client) {
+            console.log('%c❌ CLIENT NON TROUVÉ', 'color: #ef4444; font-weight: bold;');
+            console.log('   Emails dans la base:');
+            clientsResponse.data.forEach(c => {
+                console.log(`   - ${c.email}`);
+            });
+            return;
+        }
+        
+        console.log('%c✅ CLIENT TROUVÉ', 'color: #10b981; font-weight: bold;');
+        console.log('   Client:', client);
+        console.log('   Email:', client.email);
+        console.log('   Nom:', client.prenom, client.nom);
+        console.log('   Statut carte:', client.statut_carte);
+        console.log('   Password hash (BDD):', client.password_hash);
+        console.log('');
+        
+        // Étape 2 : Hash du mot de passe
+        console.log('%c🔐 ÉTAPE 2 : Vérification du mot de passe...', 'color: #3b82f6; font-weight: bold;');
+        
+        const passwordHash = await Auth.hashPassword(password);
+        console.log('   Hash calculé:', passwordHash);
+        console.log('   Hash attendu:', client.password_hash);
+        console.log('   Match:', passwordHash === client.password_hash ? '✅ OUI' : '❌ NON');
+        console.log('');
+        
+        if (passwordHash !== client.password_hash) {
+            console.log('%c❌ MOT DE PASSE INCORRECT', 'color: #ef4444; font-weight: bold;');
+            console.log('   Le hash ne correspond pas !');
+            console.log('');
+            console.log('🔧 SOLUTION : Mettre à jour le hash dans Supabase');
+            console.log(`   UPDATE clients SET password_hash = '${passwordHash}' WHERE email = '${email}';`);
+            return;
+        }
+        
+        console.log('%c✅ MOT DE PASSE CORRECT', 'color: #10b981; font-weight: bold;');
+        console.log('');
+        
+        // Étape 3 : Vérifier le statut
+        console.log('%c🎫 ÉTAPE 3 : Vérification du statut de la carte...', 'color: #3b82f6; font-weight: bold;');
+        console.log('   Statut:', client.statut_carte);
+        
+        if (client.statut_carte === 'inactive') {
+            console.log('%c⚠️ CARTE INACTIVE', 'color: #f59e0b; font-weight: bold;');
+            console.log('   La carte doit être activée avec un code');
+            return;
+        }
+        
+        if (client.statut_carte === 'suspendue') {
+            console.log('%c⚠️ CARTE SUSPENDUE', 'color: #f59e0b; font-weight: bold;');
+            return;
+        }
+        
+        if (client.statut_carte === 'expiree') {
+            console.log('%c⚠️ CARTE EXPIRÉE', 'color: #f59e0b; font-weight: bold;');
+            return;
+        }
+        
+        if (client.statut_carte === 'active') {
+            console.log('%c✅ CARTE ACTIVE', 'color: #10b981; font-weight: bold;');
+        }
+        
+        console.log('');
+        console.log('%c🎉 CONNEXION DEVRAIT FONCTIONNER !', 'background: #10b981; color: white; padding: 10px; font-size: 14px; font-weight: bold;');
+        console.log('');
+        console.log('Toutes les vérifications sont passées.');
+        console.log('Si la connexion échoue quand même, il y a un autre problème.');
+        
+    } catch (error) {
+        console.log('%c❌ ERREUR', 'color: #ef4444; font-weight: bold;');
+        console.log('   Message:', error.message);
+        console.log('   Stack:', error.stack);
+    }
+})();
+
+===========================================
+FIN DU CODE
+===========================================
+
+RÉSULTATS POSSIBLES :
+
+1. "❌ CLIENT NON TROUVÉ"
+   → Le client n'existe pas dans Supabase
+   → Réexécuter le script SQL d'insertion
+
+2. "❌ MOT DE PASSE INCORRECT"
+   → Le hash ne correspond pas
+   → Copier la commande SQL affichée et l'exécuter dans Supabase
+
+3. "⚠️ CARTE INACTIVE"
+   → La carte n'est pas activée
+   → Changer le statut en 'active' dans Supabase
+
+4. "🎉 CONNEXION DEVRAIT FONCTIONNER !"
+   → Tout est OK, réessayer la connexion normale

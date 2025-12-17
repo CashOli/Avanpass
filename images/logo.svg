@@ -1,0 +1,22 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Carte de crédit stylisée -->
+  <rect x="15" y="30" width="70" height="45" rx="5" fill="url(#grad)"/>
+  
+  <!-- Bande magnétique -->
+  <rect x="15" y="38" width="70" height="8" fill="#444" opacity="0.6"/>
+  
+  <!-- Étoile/Point de fidélité -->
+  <circle cx="50" cy="60" r="8" fill="white"/>
+  <text x="50" y="65" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#667eea" text-anchor="middle">A</text>
+  
+  <!-- Détails de la carte -->
+  <rect x="20" y="50" width="15" height="3" rx="1" fill="white" opacity="0.7"/>
+  <rect x="20" y="55" width="25" height="3" rx="1" fill="white" opacity="0.7"/>
+</svg>

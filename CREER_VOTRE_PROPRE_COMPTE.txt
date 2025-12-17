@@ -1,0 +1,236 @@
+═══════════════════════════════════════════════════════════════
+✅ CRÉER VOTRE PROPRE COMPTE AVEC VOS DONNÉES
+═══════════════════════════════════════════════════════════════
+
+📱 GUIDE COMPLET ÉTAPE PAR ÉTAPE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+ÉTAPE 1 : OUVRIR L'APPLICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sur votre téléphone ou ordinateur, ouvrez :
+
+   https://puvlagux.gensparkspace.com
+
+
+ÉTAPE 2 : CHOISIR "COMMERÇANT"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sur la page d'accueil, vous verrez 3 boutons :
+
+   ┌─────────────────────────┐
+   │   👤 Client            │
+   │   Accédez à votre       │
+   │   carte virtuelle       │
+   └─────────────────────────┘
+
+   ┌─────────────────────────┐
+   │   🏪 Commerçant   ⬅️ CLIQUEZ ICI
+   │   Scanner et valider    │
+   │   les passages          │
+   └─────────────────────────┘
+
+   ┌─────────────────────────┐
+   │   🔐 Administrateur     │
+   │   Gérer la plateforme   │
+   └─────────────────────────┘
+
+👆 CLIQUEZ SUR "COMMERÇANT"
+
+
+ÉTAPE 3 : CLIQUER "CRÉER MON COMPTE BOUTIQUE"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Vous arrivez sur l'écran de connexion.
+
+En bas, vous verrez un bouton gris :
+
+   ┌────────────────────────────────┐
+   │  Créer mon compte boutique  ⬅️ CLIQUEZ ICI
+   └────────────────────────────────┘
+
+👆 CLIQUEZ SUR CE BOUTON
+
+
+ÉTAPE 4 : REMPLIR LE FORMULAIRE AVEC VOS DONNÉES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Un formulaire s'affiche. Remplissez-le avec VOS informations :
+
+
+📝 CHAMPS OBLIGATOIRES (marqués avec *)
+─────────────────────────────────────────────────────────────
+
+1. Nom de la boutique *
+   └─> Entrez le nom de VOTRE boutique
+   └─> Exemple : "Salon de Thé Marie"
+                 "Boulangerie Dupont"
+                 "Restaurant Le Gourmet"
+
+2. Email (connexion) *
+   └─> Entrez VOTRE adresse email
+   └─> Exemple : "marie@salon-the.fr"
+                 "contact@boulangerie-dupont.fr"
+   └─> ⚠️ Cet email servira pour vous connecter
+
+3. Mot de passe *
+   └─> Choisissez VOTRE mot de passe
+   └─> Exemple : "MonMotDePasse2024"
+   └─> ⚠️ Notez-le bien, vous en aurez besoin pour vous connecter
+
+4. Nombre de passages pour une récompense *
+   └─> Combien de passages avant d'offrir une récompense ?
+   └─> Exemple : 10 (= client doit venir 10 fois)
+                 5 (= client doit venir 5 fois)
+                 20 (= client doit venir 20 fois)
+
+5. Libellé de la récompense *
+   └─> Qu'offrez-vous comme récompense ?
+   └─> Exemple : "1 café offert"
+                 "1 croissant offert"
+                 "10% de réduction"
+                 "1 massage de 30min offert"
+
+
+📝 CHAMPS FACULTATIFS (optionnels)
+─────────────────────────────────────────────────────────────
+
+6. Adresse
+   └─> L'adresse de votre boutique
+   └─> Exemple : "15 Rue de la République"
+
+7. Ville
+   └─> Votre ville
+   └─> Exemple : "Lyon"
+
+8. Responsable
+   └─> Votre nom
+   └─> Exemple : "Marie Dubois"
+
+9. Téléphone
+   └─> Votre numéro de téléphone
+   └─> Exemple : "06 12 34 56 78"
+
+
+ÉTAPE 5 : VALIDER LA CRÉATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Une fois tous les champs obligatoires remplis, cliquez sur :
+
+   ┌────────────────────────────────┐
+   │  ✅ Créer mon compte        ⬅️ CLIQUEZ ICI
+   └────────────────────────────────┘
+
+
+ÉTAPE 6 : MESSAGE DE CONFIRMATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Un message vert s'affiche :
+
+   ┌─────────────────────────────────────────────────┐
+   │  ✅ Compte créé avec succès !                   │
+   │                                                 │
+   │  Votre compte est en attente de validation      │
+   │  par l'administrateur.                          │
+   └─────────────────────────────────────────────────┘
+
+➡️ Votre compte est créé avec VOS données !
+➡️ Il est maintenant en attente de validation.
+
+
+═══════════════════════════════════════════════════════════════
+💡 EXEMPLE COMPLET AVEC VOS PROPRES DONNÉES
+═══════════════════════════════════════════════════════════════
+
+Imaginons que vous avez un salon de coiffure :
+
+   Nom de la boutique : "Coiffure Élégance"
+   Email : "contact@coiffure-elegance.fr"
+   Mot de passe : "Elegance2024!"
+   Seuil : 8 passages
+   Récompense : "1 coupe gratuite"
+   
+   Adresse : "42 Avenue des Champs"
+   Ville : "Marseille"
+   Responsable : "Sophie Martin"
+   Téléphone : "06 98 76 54 32"
+
+➡️ Remplissez le formulaire avec CES valeurs (ou les vôtres)
+➡️ Cliquez "Créer mon compte"
+➡️ Votre compte "Coiffure Élégance" est créé !
+
+
+═══════════════════════════════════════════════════════════════
+⚠️ IMPORTANT À SAVOIR
+═══════════════════════════════════════════════════════════════
+
+1. NOTEZ VOS IDENTIFIANTS
+   Email : ____________________________________
+   Mot de passe : ____________________________________
+   
+   ⚠️ Vous en aurez besoin pour vous connecter !
+
+2. STATUT APRÈS CRÉATION : "EN ATTENTE"
+   ❌ Vous ne pourrez PAS encore vous connecter
+   ⏳ Un administrateur doit d'abord valider votre compte
+
+3. APRÈS VALIDATION : "VALIDÉ"
+   ✅ Vous pourrez vous connecter avec vos identifiants
+   ✅ Vous pourrez scanner des cartes client
+   ✅ Vous pourrez valider des passages
+
+
+═══════════════════════════════════════════════════════════════
+🧪 POUR TESTER EN ATTENDANT LA VALIDATION
+═══════════════════════════════════════════════════════════════
+
+Vous pouvez utiliser le compte de démonstration :
+
+   Email : cafe@ducoin.fr
+   Mot de passe : demo123
+
+➡️ Ce compte est déjà validé
+➡️ Vous pouvez tester toutes les fonctionnalités
+
+
+═══════════════════════════════════════════════════════════════
+❓ QUESTIONS FRÉQUENTES
+═══════════════════════════════════════════════════════════════
+
+Q : Mon email est "déjà utilisé" ?
+A : ❌ Cet email a déjà un compte. Utilisez un autre email.
+
+Q : J'ai oublié de noter mon mot de passe ?
+A : ⚠️ Pas de récupération de mot de passe pour le moment.
+   Créez un nouveau compte avec un autre email.
+
+Q : Combien de temps pour la validation ?
+A : ⏳ Cela dépend de l'administrateur.
+   Peut être immédiat ou prendre quelques heures/jours.
+
+Q : Puis-je modifier mes infos après création ?
+A : ✅ Oui, une fois connecté, via "Paramètres fidélité".
+
+Q : Puis-je créer plusieurs boutiques ?
+A : ✅ Oui, créez un compte par boutique (avec un email différent).
+
+
+═══════════════════════════════════════════════════════════════
+✅ RÉCAPITULATIF : 6 ÉTAPES SIMPLES
+═══════════════════════════════════════════════════════════════
+
+1️⃣ Ouvrir : https://puvlagux.gensparkspace.com
+2️⃣ Cliquer "Commerçant"
+3️⃣ Cliquer "Créer mon compte boutique"
+4️⃣ Remplir avec VOS données (nom, email, mot de passe, etc.)
+5️⃣ Cliquer "Créer mon compte"
+6️⃣ ✅ Votre compte est créé ! (en attente de validation)
+
+
+═══════════════════════════════════════════════════════════════
+🚀 C'EST PARTI ! CRÉEZ VOTRE COMPTE MAINTENANT !
+═══════════════════════════════════════════════════════════════
+
+Version : AvanPass 1.3.2
+Date : 15 décembre 2024

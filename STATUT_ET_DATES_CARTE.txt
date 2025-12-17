@@ -1,0 +1,226 @@
+═══════════════════════════════════════════════════════════════
+✅ STATUT ET DATES AJOUTÉS SUR LA CARTE CLIENT
+═══════════════════════════════════════════════════════════════
+
+🎯 DEMANDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ajouter sur la carte client :
+   ✅ Badge statut (Activée / Inactive / Suspendue / Expirée)
+   ✅ Date d'activation
+   ✅ Date d'expiration (12 mois après activation)
+
+
+✨ FONCTIONNALITÉS AJOUTÉES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ BADGE STATUT
+   → Couleur selon statut :
+      • Activée    : Vert  ✅
+      • Inactive   : Gris  ⭕
+      • Suspendue  : Orange ⏸️
+      • Expirée    : Rouge ⛔
+   → Icône + Texte
+   → Effet brillant et ombré
+
+2️⃣ DATE D'ACTIVATION
+   → Format : JJ/MM/AAAA
+   → Label : "Activée le"
+   → Style élégant avec ombre
+
+3️⃣ DATE D'EXPIRATION
+   → Format : JJ/MM/AAAA
+   → Label : "Expire le"
+   → Calculée automatiquement (+12 mois)
+
+4️⃣ CALCUL AUTOMATIQUE
+   → À l'inscription, expiration = activation + 12 mois
+   → Stocké en base de données
+   → Format ISO (ex: 2025-12-15T10:30:00.000Z)
+
+
+📍 POSITION SUR LA CARTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ordre d'affichage :
+1. Image décorative (160px)
+2. Logo + Nom boutique
+3. Nom du client
+4. ✨ BADGE STATUT ✨ (NOUVEAU)
+5. ✨ DATES (Activée le / Expire le) ✨ (NOUVEAU)
+6. Points (0 / 10 points)
+7. Barre de progression
+8. Récompense
+9. QR Code
+
+
+🎨 EXEMPLE VISUEL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌────────────────────────────────────┐
+│ [IMAGE SNACK 160px]                │
+├────────────────────────────────────┤
+│  🏪 Snack boutique                 │
+│     Carte de fidélité              │
+│                                    │
+│  gustos olivier                    │
+│                                    │
+│  [✅ Activée]                      │
+│                                    │
+│  Activée le : 15/12/2024           │
+│  Expire le  : 15/12/2025           │
+│                                    │
+│      0 / 10 points                 │
+│      POINTS                        │
+│  [▱▱▱▱▱▱▱▱▱▱] 0%                   │
+│                                    │
+│  Encore 10 passage(s) pour :       │
+│  1 burger Offert                   │
+│                                    │
+│    [  QR CODE 320x320  ]           │
+│  Présentez ce QR en boutique       │
+└────────────────────────────────────┘
+
+
+🎨 STYLES SELON STATUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ ACTIVÉE (status-active)
+   Background : Gradient vert (#10b981 → #34d399)
+   Icône : fa-check-circle
+   Texte : "Activée"
+
+⭕ INACTIVE (status-inactive)
+   Background : Gradient gris (#6b7280 → #9ca3af)
+   Icône : fa-times-circle
+   Texte : "Inactive"
+
+⏸️ SUSPENDUE (status-suspended)
+   Background : Gradient orange (#f59e0b → #fbbf24)
+   Icône : fa-pause-circle
+   Texte : "Suspendue"
+
+⛔ EXPIRÉE (status-expired)
+   Background : Gradient rouge (#ef4444 → #f87171)
+   Icône : fa-exclamation-circle
+   Texte : "Expirée"
+
+
+💻 CODE TECHNIQUE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ Calcul de l'expiration (js/client.js ligne 137-139)
+```javascript
+const dateActivation = new Date();
+const dateExpiration = new Date(dateActivation);
+dateExpiration.setMonth(dateExpiration.getMonth() + 12);
+```
+
+2️⃣ Fonction de rendu (js/client.js après ligne 422)
+```javascript
+renderCardStatus() {
+    // Badge + Dates
+    return `
+        <div class="card-status-info">
+            <div class="status-badge status-${statusClass}">
+                <i class="fas ${statusIcon}"></i>
+                ${statusText}
+            </div>
+            <div class="card-dates">
+                <div class="date-item">
+                    <span class="date-label">Activée le</span>
+                    <span class="date-value">${formatDate(dateActivation)}</span>
+                </div>
+                <div class="date-item">
+                    <span class="date-label">Expire le</span>
+                    <span class="date-value">${formatDate(dateExpiration)}</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+```
+
+3️⃣ CSS (css/styles.css après ligne 651)
+```css
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-badge.status-active {
+    background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+}
+
+.card-dates {
+    display: flex;
+    gap: 1.5rem;
+}
+```
+
+
+📂 FICHIERS MODIFIÉS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ js/client.js
+   • Ligne 137-139 : Calcul date_expiration (+12 mois)
+   • Ligne 146 : date_expiration ajoutée dans clientData
+   • Après ligne 422 : Nouvelle fonction renderCardStatus()
+   • Ligne 389 : Appel ${this.renderCardStatus()}
+
+✅ css/styles.css
+   • Après ligne 651 : ~80 lignes CSS ajoutées
+   • Classes : .card-status-info, .status-badge, .card-dates, etc.
+
+✅ CHANGELOG.md
+   • Version 1.5.0
+
+✅ STATUT_ET_DATES_CARTE.txt
+   • Ce fichier (documentation)
+
+
+🧪 POUR TESTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ IMPORTANT : VIDER LE CACHE !
+
+1. Ctrl + Shift + R (plusieurs fois)
+2. Ou vider cache Chrome complètement
+3. Se reconnecter en tant que client
+4. Vérifier que la carte affiche :
+   ✅ Badge "✅ Activée" (vert)
+   ✅ "Activée le : 15/12/2024"
+   ✅ "Expire le : 15/12/2025"
+
+
+📋 TEST NOUVEAUX CLIENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Créer un nouveau compte client :
+   → date_activation = aujourd'hui
+   → date_expiration = aujourd'hui + 12 mois
+   → Stocké automatiquement en base
+
+
+📊 RÉCAPITULATIF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Badge statut avec 4 états
+✅ Date d'activation affichée
+✅ Date d'expiration affichée (calculée +12 mois)
+✅ CSS premium avec gradients et ombres
+✅ Format date français (JJ/MM/AAAA)
+✅ Calcul automatique à l'inscription
+
+
+═══════════════════════════════════════════════════════════════
+🚀 VIDEZ LE CACHE ET TESTEZ LA NOUVELLE CARTE ! ✨
+═══════════════════════════════════════════════════════════════
+
+Version : AvanPass 1.5.0
+Date : 15 décembre 2024
+Statut : ✅ Statut et dates implémentés

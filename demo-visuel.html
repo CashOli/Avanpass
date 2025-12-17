@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Démonstration Visuelle - Cartes Premium AvanPass</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .demo-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .demo-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .card-showcase {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-features {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            color: #4a5568;
+        }
+        
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .feature-icon {
+            margin-right: 0.75rem;
+            font-size: 1.2rem;
+        }
+        
+        .info-banner {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 2rem;
+        }
+        
+        .info-banner h2 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .info-banner p {
+            color: #4a5568;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .btn-test {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .btn-test:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🎴 Cartes Premium AvanPass V2</h1>
+            <p>✨ Design Apple Wallet avec Bannières d'Image & Contours 3D</p>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- Carte Café -->
+            <div class="card-showcase">
+                <h3 class="card-title">☕ Café du Coin</h3>
+                <div class="wallet-card" data-type="cafe" style="margin: 0;">
+                    <div class="card-decorative-band" style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=300&fit=crop&q=80');"></div>
+                    <div class="card-header">
+                        <div class="card-logo">☕</div>
+                        <div class="card-status active">
+                            <i class="fas fa-check-circle"></i> Active
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name">Café du Coin</div>
+                        <div class="qr-code-container">
+                            <div style="background: white; padding: 1rem; border-radius: 12px; text-align: center; color: #666;">
+                                QR Code Zone
+                            </div>
+                        </div>
+                        <div class="points-info">
+                            <div class="points-header">
+                                <span class="points-label">Points de fidélité</span>
+                                <span class="points-value">7/10</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 70%;"></div>
+                            </div>
+                            <div class="reward-info">
+                                <span>🎁 1 café offert</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">🖼️</span>
+                        <span>Image : Tasses de café fumantes</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <span>Gradient : Brun chocolat → Caramel</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✨</span>
+                        <span>Contour 3D avec 6 couches visuelles</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Carte Boulangerie -->
+            <div class="card-showcase">
+                <h3 class="card-title">🥖 Boulangerie Martin</h3>
+                <div class="wallet-card" data-type="boulangerie" style="margin: 0;">
+                    <div class="card-decorative-band" style="background-image: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=300&fit=crop&q=80');"></div>
+                    <div class="card-header">
+                        <div class="card-logo">🥖</div>
+                        <div class="card-status active">
+                            <i class="fas fa-check-circle"></i> Active
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name">Boulangerie Martin</div>
+                        <div class="qr-code-container">
+                            <div style="background: white; padding: 1rem; border-radius: 12px; text-align: center; color: #666;">
+                                QR Code Zone
+                            </div>
+                        </div>
+                        <div class="points-info">
+                            <div class="points-header">
+                                <span class="points-label">Points de fidélité</span>
+                                <span class="points-value">5/8</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 62.5%;"></div>
+                            </div>
+                            <div class="reward-info">
+                                <span>🎁 1 baguette offerte</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">🖼️</span>
+                        <span>Image : Pain frais et croissants</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <span>Gradient : Sable → Or</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✨</span>
+                        <span>Relief avec lumière et ombre</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Carte Salon -->
+            <div class="card-showcase">
+                <h3 class="card-title">💇 Salon Élégance</h3>
+                <div class="wallet-card" data-type="salon" style="margin: 0;">
+                    <div class="card-decorative-band" style="background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=300&fit=crop&q=80');"></div>
+                    <div class="card-header">
+                        <div class="card-logo">💇</div>
+                        <div class="card-status active">
+                            <i class="fas fa-check-circle"></i> Active
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name">Salon Élégance</div>
+                        <div class="qr-code-container">
+                            <div style="background: white; padding: 1rem; border-radius: 12px; text-align: center; color: #666;">
+                                QR Code Zone
+                            </div>
+                        </div>
+                        <div class="points-info">
+                            <div class="points-header">
+                                <span class="points-label">Points de fidélité</span>
+                                <span class="points-value">3/5</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%;"></div>
+                            </div>
+                            <div class="reward-info">
+                                <span>🎁 1 coupe gratuite</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">🖼️</span>
+                        <span>Image : Salon moderne et élégant</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <span>Gradient : Rose vif → Rose clair</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✨</span>
+                        <span>Bordure lumineuse intérieure</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Carte Pressing -->
+            <div class="card-showcase">
+                <h3 class="card-title">👔 Pressing Express</h3>
+                <div class="wallet-card" data-type="pressing" style="margin: 0;">
+                    <div class="card-decorative-band" style="background-image: url('https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=800&h=300&fit=crop&q=80');"></div>
+                    <div class="card-header">
+                        <div class="card-logo">👔</div>
+                        <div class="card-status active">
+                            <i class="fas fa-check-circle"></i> Active
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name">Pressing Express</div>
+                        <div class="qr-code-container">
+                            <div style="background: white; padding: 1rem; border-radius: 12px; text-align: center; color: #666;">
+                                QR Code Zone
+                            </div>
+                        </div>
+                        <div class="points-info">
+                            <div class="points-header">
+                                <span class="points-label">Points de fidélité</span>
+                                <span class="points-value">8/10</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%;"></div>
+                            </div>
+                            <div class="reward-info">
+                                <span>🎁 1 article lavé gratuit</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">🖼️</span>
+                        <span>Image : Vêtements repassés</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <span>Gradient : Bleu royal → Bleu ciel</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✨</span>
+                        <span>Ombres externes profondes</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Carte Restaurant -->
+            <div class="card-showcase">
+                <h3 class="card-title">🍽️ Restaurant Le Gourmet</h3>
+                <div class="wallet-card" data-type="restaurant" style="margin: 0;">
+                    <div class="card-decorative-band" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=300&fit=crop&q=80');"></div>
+                    <div class="card-header">
+                        <div class="card-logo">🍽️</div>
+                        <div class="card-status active">
+                            <i class="fas fa-check-circle"></i> Active
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name">Restaurant Le Gourmet</div>
+                        <div class="qr-code-container">
+                            <div style="background: white; padding: 1rem; border-radius: 12px; text-align: center; color: #666;">
+                                QR Code Zone
+                            </div>
+                        </div>
+                        <div class="points-info">
+                            <div class="points-header">
+                                <span class="points-label">Points de fidélité</span>
+                                <span class="points-value">10/10</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                            <div class="reward-badge glow">
+                                🎉 Récompense disponible !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">🖼️</span>
+                        <span>Image : Table gastronomique</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <span>Gradient : Rouge cramoisi → Tomate</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✨</span>
+                        <span>Badge récompense animé (glow)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Carte Par Défaut -->
+            <div class="card-showcase">
+                <h3 class="card-title">🎴 Commerce Générique</h3>
+                <div class="wallet-card" data-type="default" style="margin: 0;">
+                    <div class="card-decorative-band" style="background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?w=800&h=300&fit=crop&q=80');"></div>
+                    <div class="card-header">
+                        <div class="card-logo">🎴</div>
+                        <div class="card-status active">
+                            <i class="fas fa-check-circle"></i> Active
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name">Mon Commerce</div>
+                        <div class="qr-code-container">
+                            <div style="background: white; padding: 1rem; border-radius: 12px; text-align: center; color: #666;">
+                                QR Code Zone
+                            </div>
+                        </div>
+                        <div class="points-info">
+                            <div class="points-header">
+                                <span class="points-label">Points de fidélité</span>
+                                <span class="points-value">4/10</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%;"></div>
+                            </div>
+                            <div class="reward-info">
+                                <span>🎁 Récompense personnalisée</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">🖼️</span>
+                        <span>Image : Design abstrait moderne</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <span>Gradient : Violet → Indigo</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✨</span>
+                        <span>Style utilisé pour tous les autres types</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-banner">
+            <h2>✨ Fonctionnalités Premium V2</h2>
+            <p>
+                <strong>6 couches visuelles</strong> : Bordure externe + 3 ombres externes + contour intérieur + relief 3D<br>
+                <strong>Bannières personnalisées</strong> : Images Unsplash haute qualité (800x300px)<br>
+                <strong>Gradients uniques</strong> : Couleurs adaptées à chaque type de commerce<br>
+                <strong>Animations fluides</strong> : Effet flottant au survol, apparition en bounce<br>
+                <strong>Design Apple Wallet</strong> : Comparable aux meilleures apps de cartes digitales
+            </p>
+            <a href="index.html" class="btn-test">
+                🚀 Tester l'Application Complète
+            </a>
+        </div>
+    </div>
+</body>
+</html>

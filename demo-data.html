@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AvanPass - Générateur de Données de Démonstration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f3f4f6;
+            border-radius: 12px;
+        }
+        
+        .section h2 {
+            font-size: 1.2rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        
+        button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+        }
+        
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .status.show {
+            display: block;
+        }
+        
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+        
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+        
+        .code-display {
+            background: #1f2937;
+            color: #10b981;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin-top: 1rem;
+            overflow-x: auto;
+            display: none;
+        }
+        
+        .code-display.show {
+            display: block;
+        }
+        
+        .warning {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎴 AvanPass</h1>
+        <p class="subtitle">Générateur de Données de Démonstration</p>
+        
+        <div class="warning">
+            <strong>⚠️ Attention :</strong> Cet outil génère des données de test. Utilisez-le uniquement pour la démonstration.
+        </div>
+        
+        <div class="section">
+            <h2>📋 Étape 1 : Codes d'Activation</h2>
+            <button class="btn-primary" onclick="generateCodes()">
+                Générer 20 codes d'activation
+            </button>
+            <div id="codes-status" class="status"></div>
+            <div id="codes-display" class="code-display"></div>
+        </div>
+        
+        <div class="section">
+            <h2>🏪 Étape 2 : Boutiques Partenaires</h2>
+            <button class="btn-primary" onclick="generateBoutiques()">
+                Créer 5 boutiques de démo
+            </button>
+            <div id="boutiques-status" class="status"></div>
+        </div>
+        
+        <div class="section">
+            <h2>👥 Étape 3 : Clients</h2>
+            <button class="btn-primary" onclick="generateClients()">
+                Créer 10 clients de démo
+            </button>
+            <div id="clients-status" class="status"></div>
+        </div>
+        
+        <div class="section">
+            <h2>💳 Étape 4 : Transactions</h2>
+            <button class="btn-primary" onclick="generateTransactions()">
+                Créer 50 transactions de démo
+            </button>
+            <div id="transactions-status" class="status"></div>
+        </div>
+        
+        <div class="section">
+            <h2>✅ Tout en Un</h2>
+            <button class="btn-success" onclick="generateAll()">
+                🚀 Générer Toutes les Données de Démo
+            </button>
+            <div id="all-status" class="status"></div>
+        </div>
+        
+        <button class="btn-primary" onclick="window.location.href='index.html'" style="margin-top: 2rem;">
+            ← Retour à l'Application
+        </button>
+    </div>
+    
+    <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
+    
+    <script>
+        // Générer des codes d'activation
+        async function generateCodes() {
+            const statusEl = document.getElementById('codes-status');
+            const displayEl = document.getElementById('codes-display');
+            
+            statusEl.textContent = 'Génération en cours...';
+            statusEl.className = 'status show';
+            displayEl.innerHTML = '';
+            displayEl.classList.remove('show');
+            
+            try {
+                const codes = [];
+                for (let i = 0; i < 20; i++) {
+                    const code = {
+                        id: Utils.generateUUID(),
+                        code_activation: Utils.generateActivationCode(),
+                        statut: 'disponible',
+                        client_id: null,
+                        date_utilisation: null
+                    };
+                    await API.create('codes_activation', code);
+                    codes.push(code.code_activation);
+                }
+                
+                statusEl.textContent = '✅ 20 codes générés avec succès !';
+                statusEl.className = 'status success show';
+                
+                displayEl.innerHTML = `<strong>Codes générés :</strong><br>${codes.join('<br>')}`;
+                displayEl.classList.add('show');
+                
+            } catch (error) {
+                statusEl.textContent = '❌ Erreur : ' + error.message;
+                statusEl.className = 'status error show';
+            }
+        }
+        
+        // Générer des boutiques
+        async function generateBoutiques() {
+            const statusEl = document.getElementById('boutiques-status');
+            statusEl.textContent = 'Création des boutiques...';
+            statusEl.className = 'status show';
+            
+            const boutiquesData = [
+                {
+                    nom: 'Café du Coin',
+                    adresse: '123 Rue de la Paix',
+                    ville: 'Paris',
+                    responsable: 'Marie Dupont',
+                    telephone: '01 23 45 67 89',
+                    email: 'cafe@ducoin.fr',
+                    seuil: 10,
+                    recompense: '1 café offert'
+                },
+                {
+                    nom: 'Boulangerie Martin',
+                    adresse: '45 Avenue Victor Hugo',
+                    ville: 'Lyon',
+                    responsable: 'Pierre Martin',
+                    telephone: '04 12 34 56 78',
+                    email: 'contact@boulangerie-martin.fr',
+                    seuil: 8,
+                    recompense: '1 baguette offerte'
+                },
+                {
+                    nom: 'Salon Élégance',
+                    adresse: '78 Boulevard Haussmann',
+                    ville: 'Paris',
+                    responsable: 'Sophie Leclerc',
+                    telephone: '01 98 76 54 32',
+                    email: 'salon@elegance.fr',
+                    seuil: 5,
+                    recompense: '1 coupe gratuite'
+                },
+                {
+                    nom: 'Pressing Express',
+                    adresse: '12 Rue du Commerce',
+                    ville: 'Marseille',
+                    responsable: 'Ahmed Ben Ali',
+                    telephone: '04 56 78 90 12',
+                    email: 'pressing@express.fr',
+                    seuil: 10,
+                    recompense: '1 article lavé gratuitement'
+                },
+                {
+                    nom: 'Restaurant Le Gourmet',
+                    adresse: '90 Place de la Mairie',
+                    ville: 'Bordeaux',
+                    responsable: 'Jean-Luc Renard',
+                    telephone: '05 11 22 33 44',
+                    email: 'contact@legourmet.fr',
+                    seuil: 12,
+                    recompense: '1 dessert offert'
+                }
+            ];
+            
+            try {
+                for (const data of boutiquesData) {
+                    const boutique = {
+                        id: Utils.generateUUID(),
+                        nom_boutique: data.nom,
+                        adresse: data.adresse,
+                        ville: data.ville,
+                        responsable: data.responsable,
+                        telephone: data.telephone,
+                        statut_boutique: 'active',
+                        login_commercant: data.email,
+                        password_hash: await hashPassword('demo123'),
+                        recompense_seuil_points: data.seuil,
+                        recompense_libelle: data.recompense
+                    };
+                    await API.create('boutiques', boutique);
+                }
+                
+                statusEl.textContent = `✅ 5 boutiques créées ! (Mot de passe : demo123)`;
+                statusEl.className = 'status success show';
+                
+            } catch (error) {
+                statusEl.textContent = '❌ Erreur : ' + error.message;
+                statusEl.className = 'status error show';
+            }
+        }
+        
+        // Générer des clients
+        async function generateClients() {
+            const statusEl = document.getElementById('clients-status');
+            statusEl.textContent = 'Création des clients...';
+            statusEl.className = 'status show';
+            
+            const prenoms = ['Jean', 'Marie', 'Pierre', 'Sophie', 'Luc', 'Emma', 'Thomas', 'Julie', 'Nicolas', 'Laura'];
+            const noms = ['Dupont', 'Martin', 'Bernard', 'Petit', 'Robert', 'Richard', 'Durand', 'Leroy', 'Moreau', 'Simon'];
+            
+            try {
+                // Récupérer les codes disponibles
+                const codesRes = await API.list('codes_activation', { limit: 1000 });
+                const codesDisponibles = codesRes.data.filter(c => c.statut === 'disponible');
+                
+                if (codesDisponibles.length < 10) {
+                    statusEl.textContent = '⚠️ Pas assez de codes disponibles. Générez d\'abord des codes.';
+                    statusEl.className = 'status error show';
+                    return;
+                }
+                
+                for (let i = 0; i < 10; i++) {
+                    const client = {
+                        id: Utils.generateUUID(),
+                        prenom: prenoms[i],
+                        nom: noms[i],
+                        email: `${prenoms[i].toLowerCase()}.${noms[i].toLowerCase()}@example.com`,
+                        telephone: `06 ${10 + i} 23 45 ${60 + i}`,
+                        statut_carte: 'active',
+                        date_activation: new Date().toISOString(),
+                        date_expiration: null,
+                        qr_token_client: Utils.generateQRToken()
+                    };
+                    await API.create('clients', client);
+                    
+                    // Marquer le code comme utilisé
+                    await API.patch('codes_activation', codesDisponibles[i].id, {
+                        statut: 'utilise',
+                        client_id: client.id,
+                        date_utilisation: new Date().toISOString()
+                    });
+                }
+                
+                statusEl.textContent = '✅ 10 clients créés avec succès !';
+                statusEl.className = 'status success show';
+                
+            } catch (error) {
+                statusEl.textContent = '❌ Erreur : ' + error.message;
+                statusEl.className = 'status error show';
+            }
+        }
+        
+        // Générer des transactions
+        async function generateTransactions() {
+            const statusEl = document.getElementById('transactions-status');
+            statusEl.textContent = 'Création des transactions...';
+            statusEl.className = 'status show';
+            
+            try {
+                const [clientsRes, boutiquesRes] = await Promise.all([
+                    API.list('clients', { limit: 1000 }),
+                    API.list('boutiques', { limit: 1000 })
+                ]);
+                
+                const clients = clientsRes.data.filter(c => c.statut_carte === 'active');
+                const boutiques = boutiquesRes.data.filter(b => b.statut_boutique === 'active');
+                
+                if (clients.length === 0 || boutiques.length === 0) {
+                    statusEl.textContent = '⚠️ Créez d\'abord des clients et des boutiques.';
+                    statusEl.className = 'status error show';
+                    return;
+                }
+                
+                for (let i = 0; i < 50; i++) {
+                    const client = clients[Math.floor(Math.random() * clients.length)];
+                    const boutique = boutiques[Math.floor(Math.random() * boutiques.length)];
+                    const isPassage = Math.random() > 0.2; // 80% passages, 20% récompenses
+                    
+                    const transaction = {
+                        id: Utils.generateUUID(),
+                        date_heure: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
+                        boutique_id: boutique.id,
+                        client_id: client.id,
+                        type: isPassage ? 'passage_valide' : 'recompense_utilisee',
+                        valeur_points: isPassage ? 1 : -boutique.recompense_seuil_points,
+                        commentaire: isPassage ? '' : boutique.recompense_libelle,
+                        operateur: boutique.id
+                    };
+                    await API.create('transactions', transaction);
+                }
+                
+                statusEl.textContent = '✅ 50 transactions créées avec succès !';
+                statusEl.className = 'status success show';
+                
+            } catch (error) {
+                statusEl.textContent = '❌ Erreur : ' + error.message;
+                statusEl.className = 'status error show';
+            }
+        }
+        
+        // Générer tout
+        async function generateAll() {
+            const statusEl = document.getElementById('all-status');
+            statusEl.textContent = '🚀 Génération de toutes les données en cours...';
+            statusEl.className = 'status show';
+            
+            try {
+                await generateCodes();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                await generateBoutiques();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                await generateClients();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                await generateTransactions();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                statusEl.textContent = '✅ Toutes les données de démo ont été générées avec succès ! Retournez à l\'application pour tester.';
+                statusEl.className = 'status success show';
+                
+            } catch (error) {
+                statusEl.textContent = '❌ Erreur : ' + error.message;
+                statusEl.className = 'status error show';
+            }
+        }
+        
+        // Fonction de hash simple
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+    </script>
+</body>
+</html>

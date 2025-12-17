@@ -1,0 +1,294 @@
+===========================================
+TEST VALIDATION POINTS - SUPABASE
+===========================================
+
+🎯 OBJECTIF : Vérifier que l'erreur HTTP 403 est résolue
+
+Date : 16 décembre 2024
+Version : AvanPass 2.0.0 (Supabase)
+
+===========================================
+PRÉPARATION
+===========================================
+
+1. VIDER LE CACHE (OBLIGATOIRE)
+   
+   Sur PC :
+   - Ctrl + Shift + R (plusieurs fois)
+   - Ou : F12 → Application → Clear storage
+   
+   Sur Mobile (Samsung Internet) :
+   - Redémarrer le téléphone (force le reload)
+   - Ou : Paramètres → Effacer données navigation
+
+
+2. OUVRIR LA CONSOLE (PC uniquement)
+   
+   - Appuyer sur F12
+   - Onglet : Console
+   - Vérifier le message :
+     ✅ "API Supabase initialisée: https://ckzicazdmqjytxtitumy.supabase.co"
+
+===========================================
+SCÉNARIO DE TEST
+===========================================
+
+ÉTAPE 1 : Connexion Client (PC)
+--------------------------------
+URL      : https://puvlagux.gensparkspace.com
+Action   : Cliquer "Client" → "Se connecter"
+Email    : jean.dupont@test.fr
+Password : demo123
+
+Résultat attendu :
+✅ Carte affichée
+✅ QR Code visible (320x320px)
+✅ "Jean DUPONT"
+✅ "0 / 10 POINTS" (ou plus si déjà validé)
+✅ Badge vert "✅ Activée"
+
+
+ÉTAPE 2 : Connexion Commerçant (Mobile)
+---------------------------------------
+URL      : https://puvlagux.gensparkspace.com
+Action   : Cliquer "Commerçant" → Se connecter
+Email    : cafe@ducoin.fr
+Password : demo123
+
+Résultat attendu :
+✅ Dashboard affiché
+✅ "Snack boutique"
+✅ Bouton "Scanner QR Code" visible
+
+
+ÉTAPE 3 : Scanner le QR Code
+-----------------------------
+Sur Mobile (Commerçant) :
+- Cliquer : "Scanner QR Code"
+- Autoriser la caméra
+- Scanner le QR code affiché sur le PC (Client)
+
+Résultat attendu :
+✅ Détection du QR
+✅ Message : "Client scanné : Jean DUPONT"
+✅ Affichage des points actuels
+✅ Bouton "Valider 1 passage (+1 point)"
+
+
+ÉTAPE 4 : Valider le Passage (CRITIQUE)
+---------------------------------------
+Sur Mobile (Commerçant) :
+- Cliquer : "Valider 1 passage (+1 point)"
+- Attendre 2-3 secondes
+
+🎯 RÉSULTAT ATTENDU (SUCCÈS) :
+✅ Message : "Passage validé avec succès ! +1 point"
+✅ Redirection automatique vers le dashboard (2 sec)
+✅ AUCUNE erreur 403
+
+❌ RÉSULTAT EN CAS D'ÉCHEC :
+❌ Message : "Erreur lors de la validation"
+❌ Popup détaillé avec :
+   - Message d'erreur
+   - Code HTTP (400/404/500)
+   - ID client
+   - ID boutique
+   - Action tentée
+
+
+ÉTAPE 5 : Vérification Console (PC)
+-----------------------------------
+Sur PC (F12 → Console) :
+
+Messages attendus :
+📝 "Création dans transactions: {...}"
+✅ "Création réussie: {...}"
+✅ "Passage validé avec succès"
+
+Messages d'erreur possibles :
+❌ "Erreur API create: 403 - {...}"
+❌ "Erreur API create: 400 - {...}"
+❌ "Erreur create transactions: ..."
+
+
+ÉTAPE 6 : Vérification Supabase
+--------------------------------
+1. Aller sur : https://supabase.com/dashboard/project/ckzicazdmqjytxtitumy
+2. Cliquer : Table Editor → transactions
+3. Vérifier :
+   ✅ 1 nouvelle ligne créée
+   ✅ type : "passage_valide"
+   ✅ valeur_points : 1
+   ✅ client_id : (UUID de Jean Dupont)
+   ✅ boutique_id : (UUID de Snack boutique)
+   ✅ date_heure : (timestamp actuel)
+
+
+ÉTAPE 7 : Vérification Carte Client
+------------------------------------
+Sur PC (Client) :
+- Rafraîchir la page : F5
+- Se reconnecter : jean.dupont@test.fr / demo123
+- Vérifier :
+   ✅ Points mis à jour : "1 / 10 POINTS" (ou +1 si déjà des points)
+   ✅ Barre de progression : +10% (1 point sur 10)
+
+===========================================
+CODES DE RETOUR HTTP
+===========================================
+
+✅ 200 OK         : Lecture réussie (GET)
+✅ 201 Created    : Création réussie (POST)
+✅ 204 No Content : Suppression réussie (DELETE)
+
+❌ 400 Bad Request     : Données invalides (champ manquant)
+❌ 401 Unauthorized    : Non authentifié
+❌ 403 Forbidden       : Accès refusé (ANCIEN PROBLÈME)
+❌ 404 Not Found       : Table inexistante
+❌ 500 Internal Error  : Erreur serveur
+
+===========================================
+DIAGNOSTIC EN CAS D'ERREUR
+===========================================
+
+Si HTTP 403 (Erreur d'accès) :
+-------------------------------
+1. Vérifier dans js/api.js :
+   - supabaseUrl présent ?
+   - supabaseKey présent ?
+   - Headers bien configurés ?
+
+2. Vérifier dans Supabase Dashboard :
+   - Settings → API → anon public key
+   - Table Editor → transactions (accessible ?)
+   - SQL Editor → SELECT * FROM transactions (fonctionne ?)
+
+3. Vérifier RLS (Row Level Security) :
+   - Table Editor → transactions → RLS doit être vert
+   - Politiques : "Enable insert for all users" doit exister
+
+
+Si HTTP 400 (Données invalides) :
+----------------------------------
+1. Console (F12) : Voir l'objet envoyé
+2. Vérifier que tous les champs requis sont présents :
+   ✅ client_id (UUID)
+   ✅ boutique_id (UUID)
+   ✅ type ("passage_valide")
+   ✅ valeur_points (1)
+
+
+Si HTTP 404 (Table non trouvée) :
+----------------------------------
+1. Supabase Dashboard → Table Editor
+2. Vérifier que la table "transactions" existe
+3. Si absente : Relancer le script SQL de création
+
+
+Si Cache non vidé :
+-------------------
+Symptôme : Pas de message "API Supabase initialisée" dans console
+Solution :
+1. Fermer TOUS les onglets du site
+2. Fermer le navigateur complètement
+3. Rouvrir le navigateur
+4. Aller sur le site (Ctrl+Shift+R)
+5. Vérifier console : Message Supabase doit apparaître
+
+===========================================
+CHECKLIST DE TEST
+===========================================
+
+Avant le test :
+☐ Cache vidé (PC)
+☐ Cache vidé (Mobile)
+☐ Console ouverte (F12)
+☐ Supabase Dashboard ouvert (onglet séparé)
+
+Pendant le test :
+☐ Client connecté (jean.dupont@test.fr)
+☐ QR Code affiché sur PC
+☐ Commerçant connecté (cafe@ducoin.fr)
+☐ QR Code scanné avec succès
+☐ Validation cliquée
+
+Résultats à noter :
+☐ Message succès/erreur (screenshot)
+☐ Console logs (screenshot)
+☐ Supabase transactions (screenshot)
+☐ Points client mis à jour (screenshot)
+
+===========================================
+LOGS ATTENDUS (Console PC)
+===========================================
+
+✅ SUCCÈS (logs attendus) :
+---------------------------
+✅ API Supabase initialisée: https://ckzicazdmqjytxtitumy.supabase.co
+📝 Création dans transactions: {
+  client_id: "650e8400-e29b-41d4-a716-446655440001",
+  boutique_id: "550e8400-e29b-41d4-a716-446655440001",
+  type: "passage_valide",
+  valeur_points: 1,
+  date_heure: "2024-12-16T10:30:00.000Z",
+  commentaire: "",
+  operateur: "550e8400-e29b-41d4-a716-446655440001"
+}
+✅ Création réussie: {id: "...", client_id: "...", ...}
+✅ Passage validé avec succès
+
+
+❌ ÉCHEC (logs d'erreur) :
+--------------------------
+❌ Erreur API create: 403 - {"code":"42501","message":"..."}
+❌ Erreur create transactions: Error: Erreur API: 403
+❌ Erreur lors de la validation
+
+===========================================
+COMPTES DE TEST DISPONIBLES
+===========================================
+
+CLIENTS (tous avec password: demo123)
+-------------------------------------
+1. jean.dupont@test.fr     - Jean Dupont
+2. marie.martin@test.fr    - Marie Martin
+3. pierre.bernard@test.fr  - Pierre Bernard
+4. sophie.dubois@test.fr   - Sophie Dubois
+5. gustos.olivier@test.fr  - Gustos Olivier
+
+BOUTIQUES
+---------
+1. cafe@ducoin.fr          - Snack boutique (password: demo123)
+
+CODES ACTIVATION (si besoin)
+-----------------------------
+AVANPASS-2024-001
+AVANPASS-2024-002
+AVANPASS-2024-003
+AVANPASS-2024-004
+AVANPASS-2024-005
+
+===========================================
+CONTACT SI PROBLÈME
+===========================================
+
+Si le test échoue, envoyer :
+
+1. ✅ Screenshot du message d'erreur (mobile)
+2. ✅ Screenshot de la console (PC, F12)
+3. ✅ Screenshot du Network tab (F12 → Network → supabase.co)
+4. ✅ Texte exact de l'erreur
+
+Informations utiles :
+- Navigateur mobile : Samsung Internet / Chrome / Safari
+- Navigateur PC : Chrome / Firefox / Edge
+- Cache vidé : Oui / Non
+- Message console : (copier-coller)
+
+===========================================
+FIN DU PROTOCOLE DE TEST
+===========================================
+
+Version : AvanPass 2.0.0 (Supabase)
+Date : 16 décembre 2024
+Objectif : Résolution HTTP 403 ✅

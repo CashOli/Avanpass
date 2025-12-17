@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💾 Export Backup - AvanPass</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: transform 0.2s;
+            color: white;
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        
+        .status {
+            text-align: center;
+            font-size: 48px;
+            margin: 20px 0;
+        }
+        
+        .log {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .log-entry {
+            margin-bottom: 8px;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        
+        .log-success {
+            background: rgba(16, 185, 129, 0.2);
+            border-left: 3px solid #10b981;
+        }
+        
+        .log-error {
+            background: rgba(239, 68, 68, 0.2);
+            border-left: 3px solid #ef4444;
+        }
+        
+        .log-info {
+            background: rgba(59, 130, 246, 0.2);
+            border-left: 3px solid #3b82f6;
+        }
+        
+        pre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .download-area {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .download-area.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💾 Export Backup AvanPass</h1>
+        
+        <div class="card">
+            <h2>📊 Export des données</h2>
+            <p style="margin-bottom: 20px;">
+                Cliquez sur le bouton ci-dessous pour exporter toutes les données actuelles avant la migration.
+            </p>
+            <button class="btn btn-primary" onclick="exportAllData()">
+                📥 Exporter toutes les données
+            </button>
+            
+            <div class="status" id="status">💾</div>
+            <div id="log" class="log"></div>
+            
+            <div id="downloadArea" class="download-area">
+                <h3>✅ Export terminé !</h3>
+                <p>Fichier créé : <strong id="filename"></strong></p>
+                <button class="btn btn-success" onclick="downloadBackup()">
+                    ⬇️ Télécharger le backup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chargement de l'API AvanPass -->
+    <script src="js/api.js"></script>
+    
+    <script>
+        let logEntries = [];
+        let backupData = null;
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            logEntries.push({ timestamp, message, type });
+            updateLog();
+        }
+        
+        function updateLog() {
+            const logDiv = document.getElementById('log');
+            logDiv.innerHTML = logEntries.map(entry => {
+                return `<div class="log-entry log-${entry.type}"><strong>[${entry.timestamp}]</strong> ${entry.message}</div>`;
+            }).join('');
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function setStatus(emoji) {
+            document.getElementById('status').textContent = emoji;
+        }
+        
+        async function exportAllData() {
+            logEntries = [];
+            log('🚀 Démarrage de l\'export...', 'info');
+            setStatus('⏳');
+            
+            try {
+                // Vérifier l'API
+                if (typeof API === 'undefined') {
+                    log('❌ ERREUR: API non chargée', 'error');
+                    setStatus('❌');
+                    return;
+                }
+                
+                backupData = {
+                    export_date: new Date().toISOString(),
+                    project: 'AvanPass',
+                    version: '2.0.1',
+                    tables: {}
+                };
+                
+                // Export clients
+                log('📋 Export des clients...', 'info');
+                const clientsRes = await API.list('clients', { limit: 1000 });
+                backupData.tables.clients = clientsRes.data;
+                log(`✅ ${clientsRes.data.length} clients exportés`, 'success');
+                
+                // Export boutiques
+                log('📋 Export des boutiques...', 'info');
+                const boutiquesRes = await API.list('boutiques', { limit: 1000 });
+                backupData.tables.boutiques = boutiquesRes.data;
+                log(`✅ ${boutiquesRes.data.length} boutique(s) exportée(s)`, 'success');
+                
+                // Export transactions
+                log('📋 Export des transactions...', 'info');
+                const transactionsRes = await API.list('transactions', { limit: 10000 });
+                backupData.tables.transactions = transactionsRes.data;
+                log(`✅ ${transactionsRes.data.length} transaction(s) exportée(s)`, 'success');
+                
+                // Export codes d'activation
+                log('📋 Export des codes d\'activation...', 'info');
+                const codesRes = await API.list('codes_activation', { limit: 1000 });
+                backupData.tables.codes_activation = codesRes.data;
+                log(`✅ ${codesRes.data.length} code(s) exporté(s)`, 'success');
+                
+                // Résumé
+                log('', 'info');
+                log('📊 RÉSUMÉ DE L\'EXPORT:', 'info');
+                log(`   • Clients: ${backupData.tables.clients.length}`, 'info');
+                log(`   • Boutiques: ${backupData.tables.boutiques.length}`, 'info');
+                log(`   • Transactions: ${backupData.tables.transactions.length}`, 'info');
+                log(`   • Codes activation: ${backupData.tables.codes_activation.length}`, 'info');
+                log('', 'info');
+                log('🎉 Export terminé avec succès !', 'success');
+                
+                setStatus('✅');
+                
+                // Afficher zone de téléchargement
+                const downloadArea = document.getElementById('downloadArea');
+                downloadArea.classList.add('visible');
+                
+                const filename = `avanpass_backup_${new Date().toISOString().split('T')[0]}_${Date.now()}.json`;
+                document.getElementById('filename').textContent = filename;
+                
+            } catch (error) {
+                log(`❌ ERREUR: ${error.message}`, 'error');
+                log(`Stack: ${error.stack}`, 'error');
+                setStatus('❌');
+            }
+        }
+        
+        function downloadBackup() {
+            if (!backupData) {
+                alert('Aucune donnée à télécharger. Veuillez d\'abord exporter les données.');
+                return;
+            }
+            
+            // Créer le fichier JSON
+            const jsonString = JSON.stringify(backupData, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            // Créer le lien de téléchargement
+            const filename = `avanpass_backup_${new Date().toISOString().split('T')[0]}_${Date.now()}.json`;
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            log('⬇️ Fichier téléchargé !', 'success');
+            log(`💾 Conservez ce fichier en lieu sûr`, 'info');
+        }
+    </script>
+</body>
+</html>

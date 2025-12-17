@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Test Validation Mobile - AvanPass</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: transform 0.2s;
+            color: white;
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+        }
+        
+        .log {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .log-entry {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        
+        .log-success {
+            background: rgba(16, 185, 129, 0.2);
+            border-left: 3px solid #10b981;
+        }
+        
+        .log-error {
+            background: rgba(239, 68, 68, 0.2);
+            border-left: 3px solid #ef4444;
+        }
+        
+        .log-info {
+            background: rgba(59, 130, 246, 0.2);
+            border-left: 3px solid #3b82f6;
+        }
+        
+        .log-warning {
+            background: rgba(245, 158, 11, 0.2);
+            border-left: 3px solid #f59e0b;
+        }
+        
+        .status {
+            text-align: center;
+            font-size: 48px;
+            margin: 20px 0;
+        }
+        
+        .label {
+            font-weight: bold;
+            color: #fbbf24;
+            margin-bottom: 5px;
+        }
+        
+        .value {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Validation Mobile</h1>
+        
+        <div class="card">
+            <h2>📋 Configuration Supabase</h2>
+            <div class="label">URL:</div>
+            <div class="value" id="supabaseUrl">Chargement...</div>
+            <div class="label">Key (premiers 50 char):</div>
+            <div class="value" id="supabaseKey">Chargement...</div>
+        </div>
+        
+        <div class="card">
+            <h2>🧪 Tests</h2>
+            <button class="btn btn-primary" onclick="testAPI()">1️⃣ Test API Chargée</button>
+            <button class="btn btn-success" onclick="testCreateTransaction()">2️⃣ Test Création Transaction</button>
+            <button class="btn btn-danger" onclick="clearLog()">🗑️ Effacer Log</button>
+        </div>
+        
+        <div class="card">
+            <h2>📊 Résultat</h2>
+            <div class="status" id="status">⏳</div>
+            <div id="log" class="log"></div>
+        </div>
+    </div>
+
+    <!-- Chargement de l'API AvanPass -->
+    <script src="js/api.js"></script>
+    
+    <script>
+        let logEntries = [];
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            logEntries.push({ timestamp, message, type });
+            updateLog();
+        }
+        
+        function updateLog() {
+            const logDiv = document.getElementById('log');
+            logDiv.innerHTML = logEntries.map(entry => {
+                return `<div class="log-entry log-${entry.type}"><strong>[${entry.timestamp}]</strong> ${entry.message}</div>`;
+            }).join('');
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function clearLog() {
+            logEntries = [];
+            updateLog();
+            document.getElementById('status').textContent = '⏳';
+        }
+        
+        function setStatus(emoji) {
+            document.getElementById('status').textContent = emoji;
+        }
+        
+        // Vérifier la config Supabase au chargement
+        window.addEventListener('DOMContentLoaded', function() {
+            try {
+                if (typeof API !== 'undefined' && API.supabaseUrl) {
+                    document.getElementById('supabaseUrl').textContent = API.supabaseUrl;
+                    document.getElementById('supabaseKey').textContent = API.supabaseKey.substring(0, 50) + '...';
+                    log('✅ API chargée avec succès', 'success');
+                } else {
+                    document.getElementById('supabaseUrl').textContent = '❌ API non chargée';
+                    document.getElementById('supabaseKey').textContent = '❌ API non chargée';
+                    log('❌ ERREUR: API non définie', 'error');
+                }
+            } catch (error) {
+                log(`❌ ERREUR: ${error.message}`, 'error');
+            }
+        });
+        
+        async function testAPI() {
+            clearLog();
+            log('🔍 Test de l\'API...', 'info');
+            
+            try {
+                // Vérifier que API existe
+                if (typeof API === 'undefined') {
+                    log('❌ ERREUR: L\'objet API n\'existe pas', 'error');
+                    log('➡️ Le fichier js/api.js n\'est pas chargé ou est corrompu', 'warning');
+                    setStatus('❌');
+                    return;
+                }
+                
+                log('✅ L\'objet API existe', 'success');
+                
+                // Vérifier les méthodes
+                if (typeof API.create === 'function') {
+                    log('✅ API.create() existe', 'success');
+                } else {
+                    log('❌ ERREUR: API.create() n\'existe pas', 'error');
+                    setStatus('❌');
+                    return;
+                }
+                
+                if (typeof API.list === 'function') {
+                    log('✅ API.list() existe', 'success');
+                } else {
+                    log('❌ ERREUR: API.list() n\'existe pas', 'error');
+                    setStatus('❌');
+                    return;
+                }
+                
+                // Test de lecture
+                log('📖 Test de lecture (GET)...', 'info');
+                const clients = await API.list('clients', { limit: 1 });
+                log(`✅ Lecture OK: ${clients.data.length} client(s) récupéré(s)`, 'success');
+                
+                setStatus('✅');
+                log('🎉 TOUS LES TESTS RÉUSSIS!', 'success');
+                
+            } catch (error) {
+                log(`❌ ERREUR: ${error.message}`, 'error');
+                log(`Stack: ${error.stack}`, 'error');
+                setStatus('❌');
+            }
+        }
+        
+        async function testCreateTransaction() {
+            clearLog();
+            log('🧪 Test de création de transaction...', 'info');
+            
+            try {
+                // Vérifier API
+                if (typeof API === 'undefined' || typeof API.create !== 'function') {
+                    log('❌ ERREUR: API non disponible. Exécutez d\'abord le Test 1️⃣', 'error');
+                    setStatus('❌');
+                    return;
+                }
+                
+                // Récupérer client et boutique
+                log('📋 Récupération du client...', 'info');
+                const clientsRes = await API.list('clients', { limit: 1 });
+                if (!clientsRes.data || clientsRes.data.length === 0) {
+                    log('❌ ERREUR: Aucun client trouvé dans Supabase', 'error');
+                    setStatus('❌');
+                    return;
+                }
+                const client = clientsRes.data[0];
+                log(`✅ Client trouvé: ${client.prenom} ${client.nom} (${client.id})`, 'success');
+                
+                log('📋 Récupération de la boutique...', 'info');
+                const boutiquesRes = await API.list('boutiques', { limit: 1 });
+                if (!boutiquesRes.data || boutiquesRes.data.length === 0) {
+                    log('❌ ERREUR: Aucune boutique trouvée dans Supabase', 'error');
+                    setStatus('❌');
+                    return;
+                }
+                const boutique = boutiquesRes.data[0];
+                log(`✅ Boutique trouvée: ${boutique.nom_boutique} (${boutique.id})`, 'success');
+                
+                // Créer transaction
+                log('💾 Création de la transaction...', 'info');
+                const transactionData = {
+                    client_id: client.id,
+                    boutique_id: boutique.id,
+                    type: 'passage_valide',
+                    valeur_points: 1,
+                    date_heure: new Date().toISOString()
+                };
+                
+                log(`Données: ${JSON.stringify(transactionData, null, 2)}`, 'info');
+                
+                const result = await API.create('transactions', transactionData);
+                
+                log(`✅ TRANSACTION CRÉÉE AVEC SUCCÈS!`, 'success');
+                log(`ID: ${result.id}`, 'success');
+                log(`Type: ${result.type}`, 'success');
+                log(`Points: +${result.valeur_points}`, 'success');
+                
+                // Vérifier dans Supabase
+                log('🔍 Vérification dans Supabase...', 'info');
+                const transactionsRes = await API.list('transactions', { limit: 100 });
+                log(`✅ Total transactions dans Supabase: ${transactionsRes.data.length}`, 'success');
+                
+                setStatus('🎉');
+                log('🎉 TEST COMPLET RÉUSSI!', 'success');
+                log('✅ Problème 403 RÉSOLU!', 'success');
+                log('➡️ Allez vérifier dans Supabase Table Editor → transactions', 'warning');
+                
+            } catch (error) {
+                log(`❌ ERREUR: ${error.message}`, 'error');
+                log(`Stack: ${error.stack}`, 'error');
+                setStatus('❌');
+            }
+        }
+    </script>
+</body>
+</html>

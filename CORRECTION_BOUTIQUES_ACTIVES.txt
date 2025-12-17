@@ -1,0 +1,94 @@
+═══════════════════════════════════════════════════════════════
+✅ PROBLÈME "AUCUNE BOUTIQUE DISPONIBLE" CORRIGÉ
+═══════════════════════════════════════════════════════════════
+
+❌ PROBLÈME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Message affiché sur la carte client :
+   "Aucune boutique partenaire disponible pour le moment."
+
+Alors que 6 boutiques actives existent dans l'admin.
+
+
+🔍 CAUSE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Le code filtrait uniquement :
+   statut_boutique === 'valide'
+
+Mais vos boutiques ont le statut :
+   statut_boutique === 'active'
+
+
+✅ SOLUTION APPLIQUÉE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Modification du filtre pour accepter LES DEUX :
+   statut_boutique === 'valide' OU 'active'
+
+
+📝 CODE MODIFIÉ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Fichier : js/client.js (ligne 268)
+
+AVANT :
+const activeBoutiques = boutiquesResponse.data.filter(
+    b => b.statut_boutique === 'valide'
+);
+
+APRÈS :
+const activeBoutiques = boutiquesResponse.data.filter(
+    b => b.statut_boutique === 'valide' || b.statut_boutique === 'active'
+);
+
+
+🧪 POUR TESTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ IMPORTANT : VIDER LE CACHE
+
+1. Paramètres Chrome → Confidentialité
+2. Effacer les données de navigation
+3. Cocher "Images et fichiers en cache"
+4. Effacer
+5. Fermer Chrome complètement
+6. Rouvrir : https://puvlagux.gensparkspace.com
+7. Connexion client
+8. ✅ Vos 6 boutiques devraient maintenant s'afficher !
+
+
+📋 RÉSULTAT ATTENDU
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sur la carte client, vous devriez voir :
+
+   ┌────────────────────────────┐
+   │  Ma Carte AvanPass [Logout]│
+   │                            │
+   │  Sélectionner boutique:    │
+   │  [Snack boutique    ▼]     │
+   │  [Café du Coin      ▼]     │
+   │  [Boulangerie       ▼]     │
+   │  [... (6 boutiques) ▼]     │
+   │                            │
+   │  [Carte avec QR code]      │
+   └────────────────────────────┘
+
+
+📂 FICHIERS MODIFIÉS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ js/client.js (ligne 268)
+✅ CHANGELOG.md (version 1.4.1)
+✅ CORRECTION_BOUTIQUES_ACTIVES.txt (ce fichier)
+
+
+═══════════════════════════════════════════════════════════════
+🚀 VIDEZ LE CACHE ET TESTEZ ! VOS 6 BOUTIQUES VONT APPARAÎTRE !
+═══════════════════════════════════════════════════════════════
+
+Version : AvanPass 1.4.1
+Date : 15 décembre 2024
+Statut : ✅ Correction appliquée

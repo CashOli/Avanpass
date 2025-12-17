@@ -1,0 +1,93 @@
+═══════════════════════════════════════════════════════════
+📱 TEST MOBILE - DIAGNOSTIC AUTOMATIQUE D'ERREUR
+═══════════════════════════════════════════════════════════
+
+✅ CORRECTION APPLIQUÉE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Maintenant, quand une erreur se produit lors de la validation,
+une POPUP s'affiche automatiquement avec TOUS les détails !
+
+Plus besoin de console F12 ! 🎉
+
+
+🧪 COMMENT TESTER (3 ÉTAPES)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ RAFRAÎCHIR l'app
+   ➜ Ouvrir : https://puvlagux.gensparkspace.com
+   ➜ Vider cache + rafraîchir
+      (maintenez bouton rafraîchir → "Vider cache + actualiser")
+
+2️⃣ TESTER comme d'habitude
+   ➜ Connexion : cafe@ducoin.fr / demo123
+   ➜ Scanner une carte client
+   ➜ Cliquer "Valider 1 passage (+1 point)"
+
+3️⃣ SI ERREUR → POPUP AUTOMATIQUE
+   ➜ Une alerte s'affiche avec :
+      • Le message exact de l'API
+      • Les IDs (Client, Boutique)
+      • Le diagnostic automatique
+      • La cause probable
+
+
+📸 EXEMPLE DE POPUP QUI S'AFFICHERA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌────────────────────────────────────────────┐
+│  🔍 DIAGNOSTIC ERREUR:                     │
+│                                            │
+│  Message: Request failed with status 404  │
+│                                            │
+│  Transaction tentée:                       │
+│  - Client ID: abc-123-def-456              │
+│  - Client: Jean Dupont                     │
+│  - Boutique ID: xyz-789-uvw-012            │
+│  - Boutique: Café du Coin                  │
+│  - Type: passage_valide                    │
+│  - Points: +1                              │
+│                                            │
+│  ⚠️ Code 404: Table non trouvée            │
+│  Cause possible: La table "transactions"   │
+│  n'existe pas                              │
+│                                            │
+│             [ OK ]                         │
+└────────────────────────────────────────────┘
+
+
+📤 ENVOYEZ-MOI LA POPUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Quand la popup s'affiche :
+1. Prenez une CAPTURE D'ÉCRAN 📸
+2. Ou copiez le TEXTE exact
+3. Envoyez-le moi
+
+Je pourrai alors corriger l'erreur IMMÉDIATEMENT ! 🚀
+
+
+🎯 CAS POSSIBLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Si ça marche → Message vert : "✅ Passage validé !"
+   Points +1 automatiquement
+
+❌ Si erreur → POPUP avec détails
+   Code 400 = Données invalides (champ manquant)
+   Code 404 = Table introuvable
+   Code 500 = Erreur serveur
+
+
+💡 POURQUOI CETTE MÉTHODE ?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sur mobile, impossible d'ouvrir la console F12.
+Maintenant, l'erreur s'affiche DIRECTEMENT dans une popup !
+
+C'est comme avoir la console dans une alerte mobile. 📱
+
+
+═══════════════════════════════════════════════════════════
+✨ Prêt à tester ! Dites-moi ce que dit la popup ! ✨
+═══════════════════════════════════════════════════════════

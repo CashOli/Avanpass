@@ -1,0 +1,122 @@
+═══════════════════════════════════════════════════════════════
+✅ OUI, VOUS POUVEZ CRÉER UN COMPTE !
+═══════════════════════════════════════════════════════════════
+
+📱 3 TYPES DE COMPTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ CLIENT
+   ❌ Pas d'inscription libre
+   ✅ Activation par CODE uniquement
+   → Demandez un code d'activation à l'admin
+
+2️⃣ COMMERÇANT (BOUTIQUE)
+   ✅ INSCRIPTION LIBRE DISPONIBLE ! 🎉
+   → Créez votre compte directement
+   → Validation admin requise avant utilisation
+
+3️⃣ ADMINISTRATEUR
+   ❌ Pas d'inscription libre
+   → Création manuelle uniquement
+
+
+🏪 CRÉER UN COMPTE COMMERÇANT (5 ÉTAPES)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Ouvrir : https://puvlagux.gensparkspace.com
+2. Cliquer sur "Commerçant"
+3. Cliquer sur "Créer mon compte boutique"
+4. Remplir le formulaire :
+
+   ✅ OBLIGATOIRE :
+   • Nom de la boutique (ex: "Café du Coin")
+   • Email (ex: "contact@maboutique.fr")
+   • Mot de passe (ex: "demo123")
+   • Seuil de points (ex: 10 passages)
+   • Récompense (ex: "1 café offert")
+
+   ⚪ FACULTATIF :
+   • Adresse
+   • Ville
+   • Responsable
+   • Téléphone
+
+5. Cliquer "Créer mon compte"
+
+➡️ Résultat : 
+   "✅ Compte créé avec succès !"
+   "Votre compte est en attente de validation par l'administrateur."
+
+
+⏳ STATUT DU COMPTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Après création :
+   Statut : EN ATTENTE
+   ❌ Vous ne pouvez PAS encore vous connecter
+   ⏳ Un admin doit valider votre compte
+
+Après validation :
+   Statut : VALIDÉ
+   ✅ Vous pouvez vous connecter
+   ✅ Vous pouvez scanner des cartes
+   ✅ Vous pouvez valider des passages
+
+
+🎫 CRÉER UN COMPTE CLIENT (4 ÉTAPES)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ PAS D'INSCRIPTION DIRECTE
+✅ Activation par code uniquement
+
+1. Demander un code d'activation à l'admin
+2. Ouvrir l'app → Cliquer "Client"
+3. Choisir "Activer ma carte"
+4. Entrer le code d'activation
+
+➡️ Résultat : Carte activée + QR code généré
+
+
+🚀 POUR TESTER IMMÉDIATEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Option 1 : COMPTE DÉMO (déjà validé)
+   Email : cafe@ducoin.fr
+   Mot de passe : demo123
+   ✅ Connexion immédiate
+
+Option 2 : CRÉER VOTRE PROPRE COMPTE
+   Suivez les 5 étapes ci-dessus
+   ⚠️ Attendre validation admin
+
+
+📊 RÉCAPITULATIF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Client       → ❌ Inscription | ✅ Code activation
+Commerçant   → ✅ Inscription | ⏳ Validation admin
+Admin        → ❌ Inscription | 💻 Création manuelle
+
+
+❓ QUESTIONS FRÉQUENTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Q : Puis-je créer plusieurs comptes ?
+A : ✅ Oui (un par boutique)
+
+Q : Combien de temps pour validation ?
+A : ⏳ Dépend de l'admin (immédiat ou quelques heures/jours)
+
+Q : Email "déjà utilisé" ?
+A : ❌ Utilisez un autre email (1 email = 1 compte)
+
+Q : Puis-je me connecter pendant validation ?
+A : ❌ Non, attendez la validation admin
+
+
+═══════════════════════════════════════════════════════════════
+✨ Prêt à créer votre compte commerçant ! ✨
+═══════════════════════════════════════════════════════════════
+
+Version : AvanPass 1.3.2
+Date : 15 décembre 2024
