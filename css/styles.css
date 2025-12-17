@@ -1,45 +1,21 @@
 /* ===================================
-   AVANPASS - DESIGN ORANGE GLASSMORPHISM
-   Inspiré de l'image - Ultra Moderne
+   AVANPASS - DESIGN FINAL
+   Basé sur ta maquette - Blanc/Orange
    =================================== */
 
 :root {
-    /* Couleurs principales */
-    --primary: #ff8c42;
-    --primary-light: #ffa76c;
-    --secondary: #ff6b9d;
-    --accent: #ffb366;
-    
-    /* Gradients orange/pêche */
-    --gradient-main: linear-gradient(135deg, #ff9a56 0%, #ff6b9d 50%, #ffa76c 100%);
-    --gradient-warm: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
-    --gradient-peach: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-    
-    /* Couleurs de fond */
-    --bg-primary: #fff5eb;
-    --bg-secondary: #ffe8d6;
-    
-    /* Glassmorphism */
-    --glass-white: rgba(255, 255, 255, 0.25);
-    --glass-blur: blur(20px);
-    
-    /* Texte */
-    --text-primary: #ffffff;
-    --text-dark: #2d2d2d;
-    --text-light: rgba(255, 255, 255, 0.9);
-    
-    /* Ombres */
-    --shadow-soft: 0 8px 32px rgba(255, 138, 66, 0.15);
-    --shadow-medium: 0 12px 40px rgba(255, 107, 157, 0.2);
-    --shadow-strong: 0 20px 60px rgba(255, 107, 157, 0.3);
-    
-    /* Border radius */
+    --primary: #FF8C00;
+    --primary-dark: #FF6B00;
+    --bg-white: #ffffff;
+    --bg-cream: #fff5f0;
+    --text-dark: #333333;
+    --text-gray: #666666;
+    --glass-white: rgba(255, 255, 255, 0.4);
+    --shadow-soft: 0 8px 32px rgba(255, 140, 0, 0.1);
+    --shadow-hover: 0 12px 48px rgba(255, 140, 0, 0.15);
     --radius-card: 24px;
-    --radius-lg: 20px;
-    --radius-md: 16px;
-    
-    /* Transitions */
-    --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius-icon: 20px;
+    --transition: 0.3s ease;
 }
 
 /* ===================================
@@ -53,69 +29,42 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--gradient-main);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    color: var(--text-primary);
-    line-height: 1.6;
-    overflow-x: hidden;
+    font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
+    background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-cream) 100%);
     min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
 }
 
-@keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
 /* ===================================
-   FORMES ANIMÉES EN FOND
+   ACCENTS GÉOMÉTRIQUES ORANGE
    =================================== */
 
 body::before,
 body::after {
     content: '';
     position: fixed;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.6;
-    animation: float 20s ease-in-out infinite;
-    pointer-events: none;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    opacity: 0.15;
     z-index: 0;
+    pointer-events: none;
 }
 
 body::before {
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(255, 156, 86, 0.4) 0%, transparent 70%);
-    top: -10%;
-    right: -10%;
+    top: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
 }
 
 body::after {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(255, 107, 157, 0.4) 0%, transparent 70%);
-    bottom: -10%;
-    left: -10%;
-    animation-delay: -5s;
-    animation-duration: 25s;
-}
-
-@keyframes float {
-    0%, 100% { 
-        transform: translate(0, 0) scale(1);
-        opacity: 0.6;
-    }
-    33% { 
-        transform: translate(50px, -50px) scale(1.1);
-        opacity: 0.8;
-    }
-    66% { 
-        transform: translate(-30px, 30px) scale(0.9);
-        opacity: 0.7;
-    }
+    bottom: -150px;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
 }
 
 /* ===================================
@@ -128,7 +77,7 @@ body::after {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: var(--gradient-main);
+    background: var(--bg-white);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -145,8 +94,8 @@ body::after {
 .loading-spinner {
     width: 60px;
     height: 60px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top: 4px solid white;
+    border: 4px solid rgba(255, 140, 0, 0.2);
+    border-top: 4px solid var(--primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -157,7 +106,7 @@ body::after {
 
 .loading-screen p {
     margin-top: 1.5rem;
-    color: white;
+    color: var(--text-gray);
     font-weight: 500;
 }
 
@@ -191,21 +140,21 @@ body::after {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
-    position: relative;
-    z-index: 1;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .home-header {
     text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 60px;
     animation: slideDown 0.8s ease;
 }
 
 @keyframes slideDown {
     from {
         opacity: 0;
-        transform: translateY(-50px);
+        transform: translateY(-30px);
     }
     to {
         opacity: 1;
@@ -214,119 +163,113 @@ body::after {
 }
 
 .home-logo {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 1.5rem;
-    filter: drop-shadow(0 10px 30px rgba(255, 107, 157, 0.3));
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 4px 12px rgba(255, 140, 0, 0.2));
 }
 
 .home-header h1 {
-    font-size: 3.5rem;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
-    text-shadow: 0 4px 20px rgba(255, 107, 157, 0.3);
+    font-size: 56px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
 }
 
 .home-subtitle {
-    font-size: 1.125rem;
-    color: var(--text-light);
-    font-weight: 500;
+    font-size: 18px;
+    color: var(--text-gray);
+    font-weight: 400;
 }
 
 /* ===================================
-   ROLE CARDS - GLASSMORPHISM ORANGE
+   ROLE CARDS - SEULEMENT 2 CARTES
    =================================== */
 
 .role-selection {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
     width: 100%;
 }
 
 .role-card {
     background: var(--glass-white);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: var(--radius-card);
-    padding: 3rem 2rem;
-    text-align: center;
-    cursor: pointer;
+    padding: 50px 40px;
+    width: 320px;
+    box-shadow: 
+        var(--shadow-soft),
+        0 2px 8px rgba(0, 0, 0, 0.05);
     transition: all var(--transition);
+    cursor: pointer;
     position: relative;
     overflow: hidden;
-    box-shadow: var(--shadow-soft);
 }
 
-/* Effet de brillance */
+/* Cache la 3ème carte (Admin) */
+.role-card:nth-child(3) {
+    display: none;
+}
+
 .role-card::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        45deg,
-        transparent 30%,
-        rgba(255, 255, 255, 0.3) 50%,
-        transparent 70%
-    );
-    transform: translateX(-100%) translateY(-100%) rotate(45deg);
-    transition: transform 0.6s ease;
-}
-
-.role-card:hover::before {
-    transform: translateX(100%) translateY(100%) rotate(45deg);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.05), rgba(255, 107, 0, 0.08));
+    opacity: 0;
+    transition: opacity var(--transition);
 }
 
 .role-card:hover {
-    transform: translateY(-15px) scale(1.02);
-    background: rgba(255, 255, 255, 0.35);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: var(--shadow-strong);
+    transform: translateY(-10px);
+    box-shadow: 
+        var(--shadow-hover),
+        0 4px 16px rgba(0, 0, 0, 0.08);
+    border-color: rgba(255, 140, 0, 0.3);
 }
 
-.role-card:active {
-    transform: translateY(-12px) scale(0.98);
+.role-card:hover::before {
+    opacity: 1;
 }
 
-/* Icônes grandes et stylées */
+/* Icône dans carré orange */
 .role-card i {
-    font-size: 4rem;
-    margin-bottom: 1.5rem;
-    display: block;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border-radius: var(--radius-icon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
+    font-size: 40px;
     color: white;
-    filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.3));
-    transition: transform var(--transition);
-}
-
-.role-card:hover i {
-    transform: scale(1.15) translateY(-5px);
 }
 
 .role-card h2 {
-    font-size: 1.75rem;
+    font-size: 28px;
     font-weight: 700;
-    margin-bottom: 0.75rem;
-    color: white;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    color: var(--text-dark);
+    margin-bottom: 12px;
 }
 
 .role-card p {
-    font-size: 1rem;
-    color: var(--text-light);
-    line-height: 1.5;
+    font-size: 15px;
+    color: var(--text-gray);
+    line-height: 1.6;
 }
 
 /* ===================================
@@ -336,13 +279,11 @@ body::after {
 .btn {
     padding: 1rem 2rem;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: 16px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition);
-    position: relative;
-    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -351,27 +292,26 @@ body::after {
 }
 
 .btn-primary {
-    background: rgba(255, 255, 255, 0.95);
-    color: var(--primary);
-    box-shadow: 0 8px 24px rgba(255, 138, 66, 0.3);
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(255, 138, 66, 0.4);
-    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(255, 140, 0, 0.4);
 }
 
 .btn-secondary {
     background: var(--glass-white);
-    backdrop-filter: var(--glass-blur);
-    color: white;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    color: var(--text-dark);
+    border: 1px solid rgba(255, 140, 0, 0.2);
 }
 
 .btn-secondary:hover {
-    border-color: rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 140, 0, 0.4);
+    transform: translateY(-1px);
 }
 
 .btn-large {
@@ -381,13 +321,15 @@ body::after {
 }
 
 /* ===================================
-   FORMS - GLASSMORPHISM
+   FORMS
    =================================== */
 
 .container {
     max-width: 500px;
     margin: 0 auto;
     padding: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .header {
@@ -400,11 +342,11 @@ body::after {
 .back-btn {
     width: 48px;
     height: 48px;
-    border-radius: var(--radius-md);
+    border-radius: 12px;
     background: var(--glass-white);
-    backdrop-filter: var(--glass-blur);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 140, 0, 0.2);
+    color: var(--text-dark);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -413,23 +355,24 @@ body::after {
 }
 
 .back-btn:hover {
-    transform: translateX(-5px);
-    background: rgba(255, 255, 255, 0.35);
+    transform: translateX(-4px);
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .header h1 {
     font-size: 2rem;
     font-weight: 700;
-    color: white;
+    color: var(--text-dark);
 }
 
 .login-form {
     background: var(--glass-white);
-    backdrop-filter: var(--glass-blur);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: var(--radius-card);
     padding: 3rem;
-    box-shadow: var(--shadow-medium);
+    box-shadow: var(--shadow-soft);
 }
 
 .form-icon {
@@ -439,8 +382,7 @@ body::after {
 
 .form-icon i {
     font-size: 4rem;
-    color: white;
-    filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.3));
+    color: var(--primary);
 }
 
 .form-group {
@@ -451,31 +393,31 @@ body::after {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: white;
+    color: var(--text-dark);
     font-size: 0.875rem;
 }
 
 .form-control {
     width: 100%;
     padding: 1rem 1.25rem;
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: var(--radius-md);
-    color: white;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.2);
+    border-radius: 12px;
+    color: var(--text-dark);
     font-size: 1rem;
     font-family: inherit;
     transition: all var(--transition);
 }
 
 .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-gray);
 }
 
 .form-control:focus {
     outline: none;
-    border-color: rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
 }
 
 /* ===================================
@@ -485,10 +427,10 @@ body::after {
 .message {
     margin-top: 1.5rem;
     padding: 1rem 1.25rem;
-    border-radius: var(--radius-md);
+    border-radius: 12px;
     font-size: 0.875rem;
     font-weight: 500;
-    border: 2px solid;
+    border: 1px solid;
     opacity: 0;
     transform: translateY(-10px);
     transition: all var(--transition);
@@ -500,21 +442,21 @@ body::after {
 }
 
 .message.success {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
-    color: white;
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #059669;
 }
 
 .message.error {
-    background: rgba(255, 94, 98, 0.2);
-    border-color: rgba(255, 94, 98, 0.4);
-    color: white;
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #dc2626;
 }
 
 .message.info {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
-    color: white;
+    background: rgba(255, 140, 0, 0.1);
+    border-color: rgba(255, 140, 0, 0.3);
+    color: var(--primary-dark);
 }
 
 /* ===================================
@@ -536,47 +478,44 @@ body::after {
 
 @media (max-width: 768px) {
     .home-header h1 {
-        font-size: 2.5rem;
+        font-size: 42px;
     }
-    
-    .home-logo {
-        width: 80px;
-        height: 80px;
-    }
-    
+
     .role-selection {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 24px;
     }
-    
+
     .role-card {
-        padding: 2.5rem 2rem;
+        width: 100%;
+        max-width: 340px;
+        padding: 40px 30px;
     }
-    
-    .role-card i {
-        font-size: 3.5rem;
-    }
-    
-    .login-form {
-        padding: 2rem 1.5rem;
+
+    .container {
+        padding-bottom: 100px;
     }
 }
 
 @media (max-width: 480px) {
     .home-header h1 {
-        font-size: 2rem;
+        font-size: 36px;
     }
-    
-    .home-logo {
+
+    .home-subtitle {
+        font-size: 16px;
+    }
+
+    .role-card {
+        padding: 35px 25px;
+    }
+
+    .role-card h2 {
+        font-size: 24px;
+    }
+
+    .role-card i {
         width: 70px;
         height: 70px;
-    }
-    
-    .role-card i {
-        font-size: 3rem;
-    }
-    
-    .role-card h2 {
-        font-size: 1.5rem;
+        font-size: 35px;
     }
 }
