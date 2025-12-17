@@ -1,521 +1,736 @@
-/* ===================================
-   AVANPASS - DESIGN FINAL
-   Basé sur ta maquette - Blanc/Orange
-   =================================== */
-
-:root {
-    --primary: #FF8C00;
-    --primary-dark: #FF6B00;
-    --bg-white: #ffffff;
-    --bg-cream: #fff5f0;
-    --text-dark: #333333;
-    --text-gray: #666666;
-    --glass-white: rgba(255, 255, 255, 0.4);
-    --shadow-soft: 0 8px 32px rgba(255, 140, 0, 0.1);
-    --shadow-hover: 0 12px 48px rgba(255, 140, 0, 0.15);
-    --radius-card: 24px;
-    --radius-icon: 20px;
-    --transition: 0.3s ease;
-}
-
-/* ===================================
-   RESET & BASE
-   =================================== */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
-    background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-cream) 100%);
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* ===================================
-   ACCENTS GÉOMÉTRIQUES ORANGE
-   =================================== */
-
-body::before,
-body::after {
-    content: '';
-    position: fixed;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    opacity: 0.15;
-    z-index: 0;
-    pointer-events: none;
-}
-
-body::before {
-    top: -100px;
-    left: -100px;
-    width: 400px;
-    height: 400px;
-    clip-path: polygon(0 0, 100% 0, 0 100%);
-}
-
-body::after {
-    bottom: -150px;
-    right: -150px;
-    width: 500px;
-    height: 500px;
-    clip-path: polygon(100% 0, 100% 100%, 0 100%);
-}
-
-/* ===================================
-   LOADING SCREEN
-   =================================== */
-
-.loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: var(--bg-white);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    transition: opacity 0.5s, visibility 0.5s;
-}
-
-.loading-screen.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.loading-spinner {
-    width: 60px;
-    height: 60px;
-    border: 4px solid rgba(255, 140, 0, 0.2);
-    border-top: 4px solid var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.loading-screen p {
-    margin-top: 1.5rem;
-    color: var(--text-gray);
-    font-weight: 500;
-}
-
-/* ===================================
-   PAGE SYSTEM
-   =================================== */
-
-.page {
-    display: none;
-    position: relative;
-    z-index: 1;
-}
-
-.page.active {
-    display: block;
-    animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===================================
-   HOME PAGE
-   =================================== */
-
-.home-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.home-header {
-    text-align: center;
-    margin-bottom: 60px;
-    animation: slideDown 0.8s ease;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.home-logo {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 1rem;
-    filter: drop-shadow(0 4px 12px rgba(255, 140, 0, 0.2));
-}
-
-.home-header h1 {
-    font-size: 56px;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 10px;
-    letter-spacing: -1px;
-}
-
-.home-subtitle {
-    font-size: 18px;
-    color: var(--text-gray);
-    font-weight: 400;
-}
-
-/* ===================================
-   ROLE CARDS - SEULEMENT 2 CARTES
-   =================================== */
-
-.role-selection {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-    width: 100%;
-}
-
-.role-card {
-    background: var(--glass-white);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: var(--radius-card);
-    padding: 50px 40px;
-    width: 320px;
-    box-shadow: 
-        var(--shadow-soft),
-        0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: all var(--transition);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Cache la 3ème carte (Admin) */
-.role-card:nth-child(3) {
-    display: none;
-}
-
-.role-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.05), rgba(255, 107, 0, 0.08));
-    opacity: 0;
-    transition: opacity var(--transition);
-}
-
-.role-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 
-        var(--shadow-hover),
-        0 4px 16px rgba(0, 0, 0, 0.08);
-    border-color: rgba(255, 140, 0, 0.3);
-}
-
-.role-card:hover::before {
-    opacity: 1;
-}
-
-/* Icône dans carré orange */
-.role-card i {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 24px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    border-radius: var(--radius-icon);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
-    font-size: 40px;
-    color: white;
-}
-
-.role-card h2 {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 12px;
-}
-
-.role-card p {
-    font-size: 15px;
-    color: var(--text-gray);
-    line-height: 1.6;
-}
-
-/* ===================================
-   BUTTONS
-   =================================== */
-
-.btn {
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 16px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--transition);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-family: inherit;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(255, 140, 0, 0.4);
-}
-
-.btn-secondary {
-    background: var(--glass-white);
-    backdrop-filter: blur(10px);
-    color: var(--text-dark);
-    border: 1px solid rgba(255, 140, 0, 0.2);
-}
-
-.btn-secondary:hover {
-    border-color: rgba(255, 140, 0, 0.4);
-    transform: translateY(-1px);
-}
-
-.btn-large {
-    padding: 1.25rem 2.5rem;
-    font-size: 1.125rem;
-    width: 100%;
-}
-
-/* ===================================
-   FORMS
-   =================================== */
-
-.container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 2rem;
-    position: relative;
-    z-index: 1;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.back-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: var(--glass-white);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 140, 0, 0.2);
-    color: var(--text-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all var(--transition);
-}
-
-.back-btn:hover {
-    transform: translateX(-4px);
-    border-color: var(--primary);
-    color: var(--primary);
-}
-
-.header h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--text-dark);
-}
-
-.login-form {
-    background: var(--glass-white);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: var(--radius-card);
-    padding: 3rem;
-    box-shadow: var(--shadow-soft);
-}
-
-.form-icon {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.form-icon i {
-    font-size: 4rem;
-    color: var(--primary);
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--text-dark);
-    font-size: 0.875rem;
-}
-
-.form-control {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(255, 140, 0, 0.2);
-    border-radius: 12px;
-    color: var(--text-dark);
-    font-size: 1rem;
-    font-family: inherit;
-    transition: all var(--transition);
-}
-
-.form-control::placeholder {
-    color: var(--text-gray);
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
-}
-
-/* ===================================
-   MESSAGES
-   =================================== */
-
-.message {
-    margin-top: 1.5rem;
-    padding: 1rem 1.25rem;
-    border-radius: 12px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    border: 1px solid;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all var(--transition);
-}
-
-.message.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.message.success {
-    background: rgba(16, 185, 129, 0.1);
-    border-color: rgba(16, 185, 129, 0.3);
-    color: #059669;
-}
-
-.message.error {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.3);
-    color: #dc2626;
-}
-
-.message.info {
-    background: rgba(255, 140, 0, 0.1);
-    border-color: rgba(255, 140, 0, 0.3);
-    color: var(--primary-dark);
-}
-
-/* ===================================
-   VIEW SYSTEM
-   =================================== */
-
-.view {
-    display: none;
-}
-
-.view.active {
-    display: block;
-    animation: fadeIn 0.5s ease;
-}
-
-/* ===================================
-   RESPONSIVE
-   =================================== */
-
-@media (max-width: 768px) {
-    .home-header h1 {
-        font-size: 42px;
-    }
-
-    .role-selection {
-        gap: 24px;
-    }
-
-    .role-card {
-        width: 100%;
-        max-width: 340px;
-        padding: 40px 30px;
-    }
-
-    .container {
-        padding-bottom: 100px;
-    }
-}
-
-@media (max-width: 480px) {
-    .home-header h1 {
-        font-size: 36px;
-    }
-
-    .home-subtitle {
-        font-size: 16px;
-    }
-
-    .role-card {
-        padding: 35px 25px;
-    }
-
-    .role-card h2 {
-        font-size: 24px;
-    }
-
-    .role-card i {
-        width: 70px;
-        height: 70px;
-        font-size: 35px;
-    }
-}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#7B68A6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>AvanPass - Votre carte de fidélité digitale</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css?v=3.0.0">
+    <link rel="stylesheet" href="css/programmes.css?v=3.0.0">
+    
+    <!-- Manifest PWA -->
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 20%, #B19CD9 40%, #9B7EBD 60%, #7B68A6 80%, #6B4F9B 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Formes géométriques flottantes en arrière-plan */
+        .floating-shape {
+            position: absolute;
+            opacity: 0.12;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            top: 8%;
+            left: 5%;
+            width: 220px;
+            height: 220px;
+            background: linear-gradient(135deg, #9B7EBD, #D8BFD8);
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            top: 55%;
+            right: 6%;
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(135deg, #6B4F9B, #9B7EBD);
+            border-radius: 35% 65% 70% 30% / 35% 35% 65% 65%;
+            animation-delay: 5s;
+        }
+
+        .shape-3 {
+            bottom: 12%;
+            left: 12%;
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(135deg, #B19CD9, #E6E6FA);
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+            animation-delay: 10s;
+        }
+
+        .shape-4 {
+            top: 35%;
+            right: 18%;
+            width: 110px;
+            height: 110px;
+            background: rgba(155, 126, 189, 0.3);
+            border-radius: 22px;
+            transform: rotate(45deg);
+            animation-delay: 7s;
+        }
+
+        .shape-5 {
+            bottom: 25%;
+            left: 35%;
+            width: 90px;
+            height: 90px;
+            background: rgba(216, 191, 216, 0.25);
+            border-radius: 50%;
+            animation-delay: 12s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-35px) translateX(25px) rotate(120deg);
+            }
+            66% {
+                transform: translateY(25px) translateX(-25px) rotate(240deg);
+            }
+        }
+
+        /* Conteneur du téléphone */
+        .phone-container {
+            position: relative;
+            z-index: 10;
+            perspective: 1000px;
+        }
+
+        /* Mockup du téléphone */
+        .phone-mockup {
+            width: 380px;
+            height: 780px;
+            background: #1a1a1a;
+            border-radius: 50px;
+            padding: 12px;
+            box-shadow: 
+                0 35px 90px rgba(0, 0, 0, 0.35),
+                0 12px 35px rgba(0, 0, 0, 0.25),
+                inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+            position: relative;
+            animation: phoneEntrance 1s ease-out;
+        }
+
+        @keyframes phoneEntrance {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(35px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Encoche du téléphone */
+        .phone-notch {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #1a1a1a;
+            border-radius: 0 0 20px 20px;
+            z-index: 20;
+        }
+
+        /* Écran du téléphone */
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #ffffff 0%, #faf8fc 50%, #f5f0fa 100%);
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Contenu de l'écran */
+        .screen-content {
+            padding: 65px 30px 105px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Accents géométriques sur l'écran */
+        .screen-accent {
+            position: absolute;
+            opacity: 0.08;
+        }
+
+        .screen-accent-top {
+            top: -55px;
+            left: -55px;
+            width: 220px;
+            height: 220px;
+            background: linear-gradient(135deg, #9B7EBD, #7B68A6);
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+        }
+
+        .screen-accent-bottom {
+            bottom: 90px;
+            right: -90px;
+            width: 270px;
+            height: 270px;
+            background: linear-gradient(135deg, #B19CD9, #D8BFD8);
+            border-radius: 50%;
+        }
+
+        /* En-tête de l'application */
+        .app-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .app-logo {
+            font-size: 44px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6B4F9B, #9B7EBD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -0.8px;
+        }
+
+        .app-tagline {
+            font-size: 14px;
+            color: #4a4a4a;
+            font-weight: 400;
+        }
+
+        /* Cartes glassmorphism - 3 CARTES */
+        .cards-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            z-index: 5;
+            margin-bottom: 35px;
+            height: 290px;
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.75) 0%, 
+                rgba(230, 230, 250, 0.55) 100%);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1.5px solid rgba(255, 255, 255, 0.85);
+            border-radius: 26px;
+            padding: 32px 26px;
+            box-shadow: 
+                0 10px 38px rgba(107, 79, 155, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95);
+            position: absolute;
+            overflow: hidden;
+            transition: all 0.35s ease;
+            width: 200px;
+            height: 240px;
+            cursor: pointer;
+        }
+
+        /* Positionnement des 3 cartes - CLIENT AU CENTRE */
+        .glass-card:nth-child(1) {
+            /* Commerçant à gauche */
+            left: 0px;
+            top: 15px;
+            transform: rotate(-8deg);
+            z-index: 2;
+        }
+
+        .glass-card:nth-child(2) {
+            /* Client au centre (devant) */
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0px;
+            z-index: 3;
+        }
+
+        .glass-card:nth-child(3) {
+            /* Admin à droite */
+            right: 0px;
+            top: 15px;
+            transform: rotate(8deg);
+            z-index: 2;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, 
+                rgba(155, 126, 189, 0.35), 
+                rgba(107, 79, 155, 0.25));
+            border-radius: 26px;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            z-index: -1;
+        }
+
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+
+        .glass-card:nth-child(1):hover {
+            transform: rotate(-8deg) scale(1.08);
+            z-index: 10;
+        }
+
+        .glass-card:nth-child(2):hover {
+            transform: translateX(-50%) scale(1.08);
+            z-index: 10;
+        }
+
+        .glass-card:nth-child(3):hover {
+            transform: rotate(8deg) scale(1.08);
+            z-index: 10;
+        }
+
+        /* Contenu de la carte */
+        .card-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            padding-top: 45px;
+        }
+
+        /* Icône flottante sur la carte */
+        .card-icon-float {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85px;
+            height: 85px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(107, 79, 155, 0.25);
+            animation: floatIcon 3.2s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        .card-icon-float i {
+            font-size: 42px;
+            color: #7B68A6;
+        }
+
+        /* Texte de la carte */
+        .card-text {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 23px;
+            font-weight: 700;
+            color: #4a4a4a;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            font-size: 12px;
+            color: #6a6a6a;
+            line-height: 1.5;
+        }
+
+        /* Barre de navigation en bas */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-top: 1px solid rgba(155, 126, 189, 0.12);
+            padding: 16px 22px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: #b0b0b0;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #7B68A6;
+        }
+
+        .nav-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 17px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active .nav-icon-wrapper {
+            background: linear-gradient(135deg, #7B68A6, #9B7EBD);
+            box-shadow: 0 5px 15px rgba(107, 79, 155, 0.35);
+        }
+
+        .nav-item i {
+            font-size: 25px;
+            color: currentColor;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item.active i {
+            color: white;
+        }
+
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #E6E6FA 0%, #9B7EBD 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(123, 104, 166, 0.2);
+            border-top: 4px solid #7B68A6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-screen p {
+            margin-top: 1.5rem;
+            color: white;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        /* Page system */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        #home-page.active {
+            display: flex !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .phone-mockup {
+                width: 340px;
+                height: 700px;
+                border-radius: 42px;
+            }
+
+            .phone-screen {
+                border-radius: 34px;
+            }
+
+            .screen-content {
+                padding: 52px 26px 92px;
+            }
+
+            .app-logo {
+                font-size: 38px;
+            }
+
+            .glass-card {
+                width: 180px;
+                height: 220px;
+                padding: 28px 22px;
+            }
+
+            .card-title {
+                font-size: 20px;
+            }
+
+            .card-icon-float {
+                width: 75px;
+                height: 75px;
+            }
+
+            .card-icon-float i {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .phone-mockup {
+                width: 100%;
+                max-width: 340px;
+            }
+
+            .floating-shape {
+                opacity: 0.08;
+            }
+
+            .glass-card {
+                width: 160px;
+                height: 200px;
+            }
+
+            .glass-card:nth-child(1) {
+                left: 5px;
+            }
+
+            .glass-card:nth-child(3) {
+                right: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <p>Chargement...</p>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div id="home-page" class="page active">
+        <!-- Formes géométriques flottantes -->
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+        <div class="floating-shape shape-5"></div>
+
+        <!-- Conteneur du téléphone -->
+        <div class="phone-container">
+            <div class="phone-mockup">
+                <!-- Encoche -->
+                <div class="phone-notch"></div>
+
+                <!-- Écran -->
+                <div class="phone-screen">
+                    <!-- Accents géométriques -->
+                    <div class="screen-accent screen-accent-top"></div>
+                    <div class="screen-accent screen-accent-bottom"></div>
+
+                    <!-- Contenu de l'écran -->
+                    <div class="screen-content">
+                        <!-- En-tête -->
+                        <div class="app-header">
+                            <h1 class="app-logo">AvanPass</h1>
+                            <p class="app-tagline">Votre carte de fidélité digitale</p>
+                        </div>
+
+                        <!-- Cartes - 3 CARTES -->
+                        <div class="cards-wrapper">
+                            <!-- Carte Commerçant (gauche) -->
+                            <div class="glass-card" onclick="app.showPage('commercant-auth')">
+                                <div class="card-icon-float">
+                                    <i class="fas fa-store"></i>
+                                </div>
+                                <div class="card-inner">
+                                    <div class="card-text">
+                                        <h2 class="card-title">Commerçant</h2>
+                                        <p class="card-description">Scanner et valider<br>les passages</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Carte Client (centre) -->
+                            <div class="glass-card" onclick="app.showPage('client-auth')">
+                                <div class="card-icon-float">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div class="card-inner">
+                                    <div class="card-text">
+                                        <h2 class="card-title">Client</h2>
+                                        <p class="card-description">Accédez à votre<br>carte virtuelle</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Carte Admin (droite) -->
+                            <div class="glass-card" onclick="app.showPage('admin-auth')">
+                                <div class="card-icon-float">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <div class="card-inner">
+                                    <div class="card-text">
+                                        <h2 class="card-title">Admin</h2>
+                                        <p class="card-description">Gestion<br>de la plateforme</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Barre de navigation -->
+                    <div class="bottom-nav">
+                        <div class="nav-item">
+                            <div class="nav-icon-wrapper">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <span>Accueil</span>
+                        </div>
+
+                        <div class="nav-item">
+                            <div class="nav-icon-wrapper">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <span>Cartes</span>
+                        </div>
+
+                        <div class="nav-item active">
+                            <div class="nav-icon-wrapper">
+                                <i class="fas fa-qrcode"></i>
+                            </div>
+                            <span>Scan</span>
+                        </div>
+
+                        <div class="nav-item">
+                            <div class="nav-icon-wrapper">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span>Profil</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLIENT AUTH PAGE -->
+    <div id="client-auth" class="page">
+        <div class="container">
+            <div class="header">
+                <button class="back-btn" onclick="app.showPage('home-page')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1>Espace Client</h1>
+            </div>
+            <!-- Le contenu sera chargé par client.js -->
+        </div>
+    </div>
+
+    <!-- COMMERCANT AUTH PAGE -->
+    <div id="commercant-auth" class="page">
+        <div class="container">
+            <div class="header">
+                <button class="back-btn" onclick="app.showPage('home-page')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1>Espace Commerçant</h1>
+            </div>
+            <!-- Le contenu sera chargé par commercant.js -->
+        </div>
+    </div>
+
+    <!-- ADMIN AUTH PAGE -->
+    <div id="admin-auth" class="page">
+        <div class="container">
+            <div class="header">
+                <button class="back-btn" onclick="app.showPage('home-page')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1>Espace Administrateur</h1>
+            </div>
+            <!-- Le contenu sera chargé par admin.js -->
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/utils.js?v=3.0.0"></script>
+    <script src="js/api.js?v=3.0.0"></script>
+    <script src="js/auth.js?v=3.0.0"></script>
+    <script src="js/app.js?v=3.0.0"></script>
+    <script src="js/client-programmes.js?v=3.0.0"></script>
+    
+    <!-- Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(function(registration) {
+                console.log('✅ Service Worker enregistré:', registration.scope);
+            }).catch(function(error) {
+                console.log('❌ Erreur Service Worker:', error);
+            });
+        }
+
+        // Cacher le loading screen après chargement
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 800);
+        });
+    </script>
+</body>
+</html>
