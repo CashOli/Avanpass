@@ -865,38 +865,48 @@
     <script src="js/app.js?v=4.0.1"></script>
     <script src="js/client-programmes.js?v=4.0.1"></script>
     
-    <!-- Service Worker -->
+    <!-- Navigation & Service Worker -->
     <script>
-        // Fonction simple pour changer de page (backup si app.js tarde à charger)
-        window.app = window.app || {};
-        window.app.showPage = function(pageId) {
-            console.log('📄 Changement de page vers:', pageId);
-            
-            // Cacher toutes les pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Afficher la page demandée
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-                console.log('✅ Page affichée:', pageId);
-            } else {
-                console.error('❌ Page introuvable:', pageId);
+        // Ajouter les fonctions de navigation à l'objet app existant
+        if (typeof app !== 'undefined') {
+            // Si app.js n'a pas défini showPage, on l'ajoute
+            if (!app.showPage) {
+                app.showPage = function(pageId) {
+                    console.log('📄 Changement de page vers:', pageId);
+                    
+                    // Cacher toutes les pages
+                    document.querySelectorAll('.page').forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    
+                    // Afficher la page demandée
+                    const targetPage = document.getElementById(pageId);
+                    if (targetPage) {
+                        targetPage.classList.add('active');
+                        console.log('✅ Page affichée:', pageId);
+                    } else {
+                        console.error('❌ Page introuvable:', pageId);
+                    }
+                };
             }
-        };
-        
-        window.app.showView = function(showViewId, hideViewId) {
-            console.log('👁️ Changement de vue:', hideViewId, '→', showViewId);
             
-            const hideView = document.getElementById(hideViewId);
-            const showView = document.getElementById(showViewId);
-            
-            if (hideView) hideView.classList.remove('active');
-            if (showView) showView.classList.add('active');
-        };
+            // Si app.js n'a pas défini showView, on l'ajoute
+            if (!app.showView) {
+                app.showView = function(showViewId, hideViewId) {
+                    console.log('👁️ Changement de vue:', hideViewId, '→', showViewId);
+                    
+                    const hideView = document.getElementById(hideViewId);
+                    const showView = document.getElementById(showViewId);
+                    
+                    if (hideView) hideView.classList.remove('active');
+                    if (showView) showView.classList.add('active');
+                };
+            }
+        } else {
+            console.error('❌ Objet app introuvable !');
+        }
         
+        // Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').then(function(registration) {
                 console.log('✅ Service Worker enregistré:', registration.scope);
@@ -908,7 +918,10 @@
         // Cacher le loading screen après chargement
         window.addEventListener('load', function() {
             setTimeout(function() {
-                document.getElementById('loadingScreen').classList.add('hidden');
+                const loadingScreen = document.getElementById('loadingScreen');
+                if (loadingScreen) {
+                    loadingScreen.classList.add('hidden');
+                }
             }, 800);
         });
     </script>
