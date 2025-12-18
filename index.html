@@ -1102,17 +1102,35 @@
             // FORMULAIRE INSCRIPTION CLIENT
             const clientRegisterForm = document.getElementById('client-register-form');
             if (clientRegisterForm) {
+                let isSubmitting = false; // Flag pour éviter les soumissions multiples
+                
                 clientRegisterForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Éviter les soumissions multiples
+                    if (isSubmitting) {
+                        console.log('⏸️ Soumission déjà en cours, ignorée');
+                        return;
+                    }
+                    
+                    isSubmitting = true;
                     console.log('📝 Tentative d\'inscription client...');
                     
                     const nom = document.getElementById('client-register-nom').value;
                     const email = document.getElementById('client-register-email').value;
                     const password = document.getElementById('client-register-password').value;
                     const code = document.getElementById('client-activation-code').value;
+                    const submitBtn = this.querySelector('button[type="submit"]');
                     
                     console.log('📧 Email:', email);
                     console.log('👤 Nom:', nom);
+                    
+                    // Désactiver le bouton
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création...';
+                    }
                     
                     // Afficher un message de chargement
                     const messageDiv = document.getElementById('client-message');
@@ -1120,61 +1138,55 @@
                     messageDiv.textContent = '⏳ Création du compte...';
                     
                     try {
-                        // Appeler l'API d'inscription (si elle existe dans auth.js)
-                        if (typeof auth !== 'undefined' && auth.registerClient) {
-                            const result = await auth.registerClient(email, password, nom, code);
+                        // Utiliser directement Supabase
+                        console.log('🔄 Appel Supabase signUp...');
+                        
+                        if (typeof API !== 'undefined' && API.supabase) {
+                            const { data, error } = await API.supabase.auth.signUp({
+                                email: email,
+                                password: password,
+                                options: {
+                                    data: {
+                                        nom: nom,
+                                        code_activation: code || null
+                                    }
+                                }
+                            });
                             
-                            if (result.success) {
+                            if (error) {
+                                console.error('❌ Erreur Supabase:', error);
+                                messageDiv.className = 'message error show';
+                                messageDiv.textContent = '❌ ' + error.message;
+                            } else {
+                                console.log('✅ Inscription réussie:', data);
                                 messageDiv.className = 'message success show';
                                 messageDiv.textContent = '✅ Compte créé avec succès !';
                                 
-                                // Rediriger après 2 secondes
+                                // Vider le formulaire
+                                clientRegisterForm.reset();
+                                
+                                // Rediriger vers login après 2 secondes
                                 setTimeout(() => {
                                     app.showView('client-login-view', 'client-register-view');
+                                    messageDiv.className = 'message';
+                                    messageDiv.textContent = '';
                                 }, 2000);
-                            } else {
-                                messageDiv.className = 'message error show';
-                                messageDiv.textContent = '❌ ' + (result.error || 'Erreur lors de l\'inscription');
                             }
                         } else {
-                            // Fallback : utiliser directement Supabase
-                            console.log('⚠️ auth.registerClient non trouvé, utilisation directe de Supabase');
-                            
-                            if (typeof API !== 'undefined' && API.supabase) {
-                                const { data, error } = await API.supabase.auth.signUp({
-                                    email: email,
-                                    password: password,
-                                    options: {
-                                        data: {
-                                            nom: nom,
-                                            code_activation: code || null
-                                        }
-                                    }
-                                });
-                                
-                                if (error) {
-                                    console.error('❌ Erreur Supabase:', error);
-                                    messageDiv.className = 'message error show';
-                                    messageDiv.textContent = '❌ ' + error.message;
-                                } else {
-                                    console.log('✅ Inscription réussie:', data);
-                                    messageDiv.className = 'message success show';
-                                    messageDiv.textContent = '✅ Compte créé ! Vérifiez votre email.';
-                                    
-                                    // Rediriger vers login
-                                    setTimeout(() => {
-                                        app.showView('client-login-view', 'client-register-view');
-                                    }, 2000);
-                                }
-                            } else {
-                                messageDiv.className = 'message error show';
-                                messageDiv.textContent = '❌ API Supabase non disponible';
-                            }
+                            messageDiv.className = 'message error show';
+                            messageDiv.textContent = '❌ API Supabase non disponible';
                         }
                     } catch (error) {
                         console.error('❌ Erreur:', error);
                         messageDiv.className = 'message error show';
                         messageDiv.textContent = '❌ Erreur: ' + error.message;
+                    } finally {
+                        // Réactiver le bouton
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> S\'inscrire';
+                        }
+                        isSubmitting = false;
                     }
                 });
                 console.log('✅ Formulaire inscription client connecté');
@@ -1183,14 +1195,31 @@
             // FORMULAIRE CONNEXION CLIENT
             const clientLoginForm = document.getElementById('client-login-form');
             if (clientLoginForm) {
+                let isSubmitting = false;
+                
                 clientLoginForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
+                    
+                    if (isSubmitting) {
+                        console.log('⏸️ Soumission déjà en cours, ignorée');
+                        return;
+                    }
+                    
+                    isSubmitting = true;
                     console.log('🔐 Tentative de connexion client...');
                     
                     const email = document.getElementById('client-email').value;
                     const password = document.getElementById('client-password').value;
+                    const submitBtn = this.querySelector('button[type="submit"]');
                     
                     console.log('📧 Email:', email);
+                    
+                    // Désactiver le bouton
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
+                    }
                     
                     const messageDiv = document.getElementById('client-message');
                     messageDiv.className = 'message info show';
@@ -1214,7 +1243,7 @@
                                 
                                 // TODO: Rediriger vers l'espace client
                                 setTimeout(() => {
-                                    alert('Espace client à développer !');
+                                    alert('Bienvenue ! L\'espace client sera développé prochainement.');
                                 }, 1000);
                             }
                         } else {
@@ -1225,6 +1254,12 @@
                         console.error('❌ Erreur:', error);
                         messageDiv.className = 'message error show';
                         messageDiv.textContent = '❌ Erreur: ' + error.message;
+                    } finally {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Se connecter';
+                        }
+                        isSubmitting = false;
                     }
                 });
                 console.log('✅ Formulaire connexion client connecté');
