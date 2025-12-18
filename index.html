@@ -674,7 +674,70 @@
                 </button>
                 <h1>Espace Client</h1>
             </div>
-            <!-- Le contenu sera chargé par client.js -->
+            
+            <div class="login-form">
+                <div class="form-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                
+                <div id="client-login-view" class="view active">
+                    <form id="client-login-form" onsubmit="return false;">
+                        <div class="form-group">
+                            <label for="client-email">Email</label>
+                            <input type="email" id="client-email" class="form-control" placeholder="votre@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-password">Mot de passe</label>
+                            <input type="password" id="client-password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Se connecter
+                        </button>
+                    </form>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <p style="color: #666;">Pas encore de compte ?</p>
+                        <button class="btn btn-secondary" onclick="app.showView('client-register-view', 'client-login-view')">
+                            Créer un compte
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="client-register-view" class="view">
+                    <form id="client-register-form" onsubmit="return false;">
+                        <div class="form-group">
+                            <label for="client-register-nom">Nom complet</label>
+                            <input type="text" id="client-register-nom" class="form-control" placeholder="Votre nom" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-register-email">Email</label>
+                            <input type="email" id="client-register-email" class="form-control" placeholder="votre@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-register-password">Mot de passe</label>
+                            <input type="password" id="client-register-password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-activation-code">Code d'activation (optionnel)</label>
+                            <input type="text" id="client-activation-code" class="form-control" placeholder="CODE123" style="text-transform: uppercase;">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-user-plus"></i>
+                            S'inscrire
+                        </button>
+                    </form>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="btn btn-secondary" onclick="app.showView('client-login-view', 'client-register-view')">
+                            <i class="fas fa-arrow-left"></i>
+                            Retour à la connexion
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="client-message" class="message"></div>
+            </div>
         </div>
     </div>
 
@@ -687,7 +750,66 @@
                 </button>
                 <h1>Espace Commerçant</h1>
             </div>
-            <!-- Le contenu sera chargé par commercant.js -->
+            
+            <div class="login-form">
+                <div class="form-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                
+                <div id="commercant-login-view" class="view active">
+                    <form id="commercant-login-form" onsubmit="return false;">
+                        <div class="form-group">
+                            <label for="commercant-email">Email</label>
+                            <input type="email" id="commercant-email" class="form-control" placeholder="votre@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="commercant-password">Mot de passe</label>
+                            <input type="password" id="commercant-password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Se connecter
+                        </button>
+                    </form>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <p style="color: #666;">Pas encore inscrit ?</p>
+                        <button class="btn btn-secondary" onclick="app.showView('commercant-register-view', 'commercant-login-view')">
+                            Créer un compte commerçant
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="commercant-register-view" class="view">
+                    <form id="commercant-register-form" onsubmit="return false;">
+                        <div class="form-group">
+                            <label for="commercant-register-nom">Nom de la boutique</label>
+                            <input type="text" id="commercant-register-nom" class="form-control" placeholder="Ma Boutique" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="commercant-register-email">Email</label>
+                            <input type="email" id="commercant-register-email" class="form-control" placeholder="contact@boutique.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="commercant-register-password">Mot de passe</label>
+                            <input type="password" id="commercant-register-password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-store"></i>
+                            Créer mon compte
+                        </button>
+                    </form>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="btn btn-secondary" onclick="app.showView('commercant-login-view', 'commercant-register-view')">
+                            <i class="fas fa-arrow-left"></i>
+                            Retour à la connexion
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="commercant-message" class="message"></div>
+            </div>
         </div>
     </div>
 
@@ -700,7 +822,36 @@
                 </button>
                 <h1>Espace Administrateur</h1>
             </div>
-            <!-- Le contenu sera chargé par admin.js -->
+            
+            <div class="login-form">
+                <div class="form-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                
+                <form id="admin-login-form" onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="admin-email">Email administrateur</label>
+                        <input type="email" id="admin-email" class="form-control" placeholder="admin@avanpass.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-password">Mot de passe</label>
+                        <input type="password" id="admin-password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Connexion sécurisée
+                    </button>
+                </form>
+                
+                <div id="admin-message" class="message"></div>
+                
+                <div style="text-align: center; margin-top: 1.5rem; padding: 1rem; background: rgba(123, 104, 166, 0.1); border-radius: 12px;">
+                    <i class="fas fa-lock" style="color: #7B68A6; font-size: 20px; margin-bottom: 0.5rem;"></i>
+                    <p style="color: #666; font-size: 0.875rem; margin: 0;">
+                        Accès réservé aux administrateurs
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
