@@ -744,6 +744,384 @@
                 right: 5px;
             }
         }
+
+        /* ===================================
+           ESPACE CLIENT - DASHBOARD STYLES
+           =================================== */
+
+        .client-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            padding-bottom: 100px;
+            min-height: 100vh;
+        }
+
+        .client-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info i.fa-user-circle {
+            font-size: 3rem;
+            color: #7B68A6;
+        }
+
+        .btn-logout {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #dc2626;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            transform: scale(1.05);
+        }
+
+        .boutique-selector {
+            margin-bottom: 1.5rem;
+        }
+
+        .boutique-selector label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4a4a4a;
+            font-size: 0.875rem;
+        }
+
+        .boutique-selector label i {
+            color: #7B68A6;
+            margin-right: 0.5rem;
+        }
+
+        .loyalty-card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1.586;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(123, 104, 166, 0.3), 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-background {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #7B68A6 0%, #9B7EBD 50%, #B19CD9 100%);
+        }
+
+        .card-pattern {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .card-shine {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 40%, 
+                        rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 60%, transparent 100%);
+            animation: cardShine 3s ease-in-out infinite;
+        }
+
+        @keyframes cardShine {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+            padding: 1.5rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .card-header-top {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-logo {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .card-boutique h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .card-boutique p {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .card-progress {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .card-qr {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qr-container {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 12px;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .card-footer {
+            text-align: center;
+        }
+
+        .card-member {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin: 0;
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-card i {
+            font-size: 1.5rem;
+            color: #7B68A6;
+        }
+
+        .stat-card h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4a4a4a;
+            margin: 0;
+        }
+
+        .stat-card p {
+            font-size: 0.75rem;
+            color: #666;
+            margin: 0;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #4a4a4a;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section h3 i {
+            color: #7B68A6;
+        }
+
+        .recompenses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .recompense-card {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .recompense-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(123, 104, 166, 0.2);
+        }
+
+        .recompense-card.available {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .recompense-card i {
+            font-size: 2rem;
+            color: #7B68A6;
+            margin-bottom: 0.5rem;
+        }
+
+        .recompense-card h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #4a4a4a;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .recompense-card p {
+            font-size: 0.75rem;
+            color: #666;
+            margin: 0;
+        }
+
+        .historique-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .historique-item {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .historique-info {
+            flex: 1;
+        }
+
+        .historique-info h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #4a4a4a;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .historique-info p {
+            font-size: 0.75rem;
+            color: #666;
+            margin: 0;
+        }
+
+        .historique-badge {
+            background: rgba(123, 104, 166, 0.2);
+            color: #7B68A6;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .client-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(155, 126, 189, 0.12);
+            padding: 0.75rem;
+            display: flex;
+            justify-content: space-around;
+            z-index: 100;
+        }
+
+        .client-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            color: #999;
+            font-size: 0.75rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .client-nav .nav-item i {
+            font-size: 1.25rem;
+        }
+
+        .client-nav .nav-item.active {
+            color: #7B68A6;
+            background: rgba(123, 104, 166, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -1050,6 +1428,131 @@
         </div>
     </div>
 
+    <!-- CLIENT DASHBOARD PAGE -->
+    <div id="client-dashboard" class="page">
+        <div class="client-container">
+            <!-- Header avec déconnexion -->
+            <div class="client-header">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div>
+                        <h2 id="client-name">Chargement...</h2>
+                        <p id="client-email"></p>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="clientLogout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+
+            <!-- Sélecteur de boutique -->
+            <div class="boutique-selector">
+                <label for="select-boutique">
+                    <i class="fas fa-store"></i> Ma boutique
+                </label>
+                <select id="select-boutique" class="form-control" onchange="clientChangeBoutique()">
+                    <option value="">Sélectionnez une boutique...</option>
+                </select>
+            </div>
+
+            <!-- Carte de fidélité virtuelle -->
+            <div class="loyalty-card" id="loyalty-card">
+                <div class="card-background">
+                    <div class="card-pattern"></div>
+                    <div class="card-shine"></div>
+                </div>
+                
+                <div class="card-content">
+                    <div class="card-header-top">
+                        <div class="card-logo">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="card-boutique">
+                            <h3 id="card-boutique-name">Sélectionnez une boutique</h3>
+                            <p id="card-programme-type">Programme de fidélité</p>
+                        </div>
+                    </div>
+
+                    <!-- Zone des points/tampons -->
+                    <div class="card-progress" id="card-progress-zone">
+                        <!-- Sera rempli dynamiquement selon le type de programme -->
+                    </div>
+
+                    <!-- QR Code -->
+                    <div class="card-qr">
+                        <div id="qrcode" class="qr-container"></div>
+                        <p class="qr-label">Scannez pour valider</p>
+                    </div>
+
+                    <div class="card-footer">
+                        <p class="card-member">Membre depuis <span id="card-member-since">2025</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats rapides -->
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <h4 id="stat-passages">0</h4>
+                        <p>Passages</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-gift"></i>
+                    <div>
+                        <h4 id="stat-recompenses">0</h4>
+                        <p>Récompenses</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-euro-sign"></i>
+                    <div>
+                        <h4 id="stat-montant">0€</h4>
+                        <p>Dépensé</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Récompenses disponibles -->
+            <div class="section">
+                <h3><i class="fas fa-gift"></i> Récompenses disponibles</h3>
+                <div id="recompenses-list" class="recompenses-grid">
+                    <p class="empty-state">Sélectionnez une boutique pour voir vos récompenses</p>
+                </div>
+            </div>
+
+            <!-- Historique récent -->
+            <div class="section">
+                <h3><i class="fas fa-history"></i> Historique récent</h3>
+                <div id="historique-list" class="historique-list">
+                    <p class="empty-state">Aucun passage enregistré</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation bottom -->
+        <div class="client-nav">
+            <div class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Accueil</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-gift"></i>
+                <span>Récompenses</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-history"></i>
+                <span>Historique</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profil</span>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script src="js/utils.js?v=4.0.1"></script>
     <script src="js/api.js?v=4.0.1"></script>
@@ -1101,6 +1604,31 @@
         // Gestionnaires de formulaires
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🎯 Initialisation des formulaires...');
+            
+            // Initialiser Supabase client si pas déjà fait
+            let supabaseClient = null;
+            
+            if (typeof API !== 'undefined' && API.supabaseUrl && API.supabaseKey) {
+                console.log('🔧 Initialisation du client Supabase...');
+                
+                // Charger la librairie Supabase depuis CDN si nécessaire
+                if (typeof createClient === 'undefined') {
+                    console.log('📦 Chargement de la librairie Supabase...');
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+                    script.onload = function() {
+                        console.log('✅ Librairie Supabase chargée');
+                        supabaseClient = supabase.createClient(API.supabaseUrl, API.supabaseKey);
+                        console.log('✅ Client Supabase initialisé');
+                    };
+                    document.head.appendChild(script);
+                } else {
+                    supabaseClient = createClient(API.supabaseUrl, API.supabaseKey);
+                    console.log('✅ Client Supabase initialisé');
+                }
+            } else {
+                console.error('❌ Impossible d\'initialiser Supabase : API.supabaseUrl ou API.supabaseKey manquants');
+            }
             
             // FORMULAIRE INSCRIPTION CLIENT
             const clientRegisterForm = document.getElementById('client-register-form');
@@ -1257,9 +1785,10 @@
                                 messageDiv.className = 'message success show';
                                 messageDiv.textContent = '✅ Connexion réussie !';
                                 
-                                // TODO: Rediriger vers l'espace client
+                                // Rediriger vers le dashboard client
                                 setTimeout(() => {
-                                    alert('Bienvenue ! L\'espace client sera développé prochainement.');
+                                    app.showPage('client-dashboard');
+                                    initClientDashboard(data.user);
                                 }, 1000);
                             }
                         } else {
@@ -1283,6 +1812,110 @@
             
             console.log('✅ Tous les formulaires sont prêts !');
         });
+        
+        // ===================================
+        // ESPACE CLIENT - JAVASCRIPT
+        // ===================================
+        
+        let currentUser = null;
+        let currentBoutique = null;
+        let clientBoutiques = [];
+
+        function clientLogout() {
+            if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+                currentUser = null;
+                currentBoutique = null;
+                app.showPage('home-page');
+            }
+        }
+
+        function clientChangeBoutique() {
+            const boutiqueId = document.getElementById('select-boutique').value;
+            if (boutiqueId) {
+                loadBoutiqueData(boutiqueId);
+            }
+        }
+
+        async function loadBoutiqueData(boutiqueId) {
+            console.log('📊 Chargement boutique:', boutiqueId);
+            const boutique = clientBoutiques.find(b => b.id === boutiqueId);
+            if (boutique) {
+                document.getElementById('card-boutique-name').textContent = boutique.nom;
+                document.getElementById('card-programme-type').textContent = 'Programme ' + boutique.programme_type;
+            }
+            generateQRCode(currentUser.id, boutiqueId);
+            updateStats(5, 2, 125.50);
+            loadRecompenses();
+            loadHistorique();
+        }
+
+        function generateQRCode(userId, boutiqueId) {
+            document.getElementById('qrcode').innerHTML = `
+                <div style="width: 80px; height: 80px; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: #999; flex-direction: column;">
+                    <i class="fas fa-qrcode" style="font-size: 2rem; margin-bottom: 0.25rem;"></i>
+                    <span style="font-size: 0.6rem;">${userId.substring(0,8)}</span>
+                </div>
+            `;
+        }
+
+        function updateStats(passages, recompenses, montant) {
+            document.getElementById('stat-passages').textContent = passages;
+            document.getElementById('stat-recompenses').textContent = recompenses;
+            document.getElementById('stat-montant').textContent = montant.toFixed(2) + '€';
+        }
+
+        function loadRecompenses() {
+            document.getElementById('recompenses-list').innerHTML = `
+                <div class="recompense-card available">
+                    <i class="fas fa-coffee"></i>
+                    <h4>Café offert</h4>
+                    <p>Disponible !</p>
+                </div>
+                <div class="recompense-card">
+                    <i class="fas fa-ice-cream"></i>
+                    <h4>Dessert offert</h4>
+                    <p>Dans 3 passages</p>
+                </div>
+            `;
+        }
+
+        function loadHistorique() {
+            document.getElementById('historique-list').innerHTML = `
+                <div class="historique-item">
+                    <div class="historique-info">
+                        <h4>Ma Boutique</h4>
+                        <p>Il y a 2 jours</p>
+                    </div>
+                    <div class="historique-badge">+1 point</div>
+                </div>
+            `;
+        }
+
+        function initClientDashboard(user) {
+            console.log('🎯 Init dashboard:', user);
+            currentUser = user;
+            document.getElementById('client-name').textContent = user.user_metadata?.nom || 'Utilisateur';
+            document.getElementById('client-email').textContent = user.email;
+            document.getElementById('card-member-since').textContent = new Date(user.created_at).getFullYear();
+            loadClientBoutiques();
+        }
+
+        async function loadClientBoutiques() {
+            const boutiques = [
+                { id: '1', nom: 'Café Central', programme_type: 'points' },
+                { id: '2', nom: 'Boulangerie Paul', programme_type: 'tampons' },
+                { id: '3', nom: 'Restaurant Le Gourmet', programme_type: 'montant' }
+            ];
+            clientBoutiques = boutiques;
+            const select = document.getElementById('select-boutique');
+            select.innerHTML = '<option value="">Sélectionnez une boutique...</option>';
+            boutiques.forEach(b => {
+                const option = document.createElement('option');
+                option.value = b.id;
+                option.textContent = b.nom;
+                select.appendChild(option);
+            });
+        }
         
         // Service Worker
         if ('serviceWorker' in navigator) {
