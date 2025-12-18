@@ -753,7 +753,7 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 1.5rem;
-            padding-bottom: 150px; /* Encore plus de marge pour la navigation */
+            padding-bottom: 180px; /* Beaucoup plus de marge */
             min-height: 100vh;
         }
 
@@ -982,7 +982,7 @@
         }
 
         .section {
-            margin-bottom: 2rem;
+            margin-bottom: 3rem; /* Augmenté de 2rem à 3rem */
         }
 
         .section h3 {
@@ -997,6 +997,11 @@
 
         .section h3 i {
             color: #7B68A6;
+        }
+
+        /* Ajouter une marge supplémentaire à la dernière section */
+        .section:last-of-type {
+            margin-bottom: 4rem;
         }
 
         .recompenses-grid {
@@ -1103,10 +1108,11 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(155, 126, 189, 0.12);
-            padding: 0.75rem;
+            padding: 0.5rem; /* Réduit de 0.75rem à 0.5rem */
             display: flex;
             justify-content: space-around;
             z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .client-nav .nav-item {
@@ -1115,15 +1121,15 @@
             align-items: center;
             gap: 0.25rem;
             color: #999;
-            font-size: 0.75rem;
+            font-size: 0.7rem; /* Réduit de 0.75rem à 0.7rem */
             cursor: pointer;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.75rem; /* Réduit le padding */
             border-radius: 12px;
             transition: all 0.3s ease;
         }
 
         .client-nav .nav-item i {
-            font-size: 1.25rem;
+            font-size: 1.125rem; /* Réduit de 1.25rem à 1.125rem */
         }
 
         .client-nav .nav-item.active {
