@@ -1053,6 +1053,13 @@
             box-shadow: 0 8px 24px rgba(123, 104, 166, 0.2);
         }
 
+        /* Bottom spacer massif pour garantir visibilité */
+        .bottom-spacer {
+            height: 280px;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
         .recompense-card.available {
             border-color: #10b981;
             background: rgba(16, 185, 129, 0.1);
@@ -1563,7 +1570,7 @@
             </div>
 
             <!-- Récompenses disponibles -->
-            <div class="section">
+            <div class="section" style="margin-bottom: 2rem;">
                 <h3><i class="fas fa-gift"></i> Récompenses disponibles</h3>
                 <div id="recompenses-list" class="recompenses-grid">
                     <p class="empty-state">Sélectionnez une boutique pour voir vos récompenses</p>
@@ -1571,15 +1578,15 @@
             </div>
 
             <!-- Historique récent -->
-            <div class="section">
+            <div class="section" style="margin-bottom: 2rem;">
                 <h3><i class="fas fa-history"></i> Historique récent</h3>
                 <div id="historique-list" class="historique-list">
                     <p class="empty-state">Aucun passage enregistré</p>
                 </div>
             </div>
 
-            <!-- Spacer pour éviter que la navigation cache le contenu -->
-            <div style="height: 200px;"></div>
+            <!-- SPACER MASSIF - NE PAS TOUCHER -->
+            <div class="bottom-spacer"></div>
         </div>
 
         <!-- Navigation bottom -->
