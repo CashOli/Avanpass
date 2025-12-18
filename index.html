@@ -14,6 +14,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <!-- Manifest PWA -->
     <link rel="manifest" href="manifest.json">
     
@@ -1138,11 +1141,17 @@
                     messageDiv.textContent = '⏳ Création du compte...';
                     
                     try {
-                        // Utiliser directement Supabase
-                        console.log('🔄 Appel Supabase signUp...');
+                        // Créer le client Supabase directement
+                        console.log('🔄 Création client Supabase...');
                         
-                        if (typeof API !== 'undefined' && API.supabase) {
-                            const { data, error } = await API.supabase.auth.signUp({
+                        if (typeof API !== 'undefined' && API.supabaseUrl && API.supabaseKey) {
+                            // Importer createClient depuis la bibliothèque Supabase
+                            const { createClient } = supabase;
+                            const supabaseClient = createClient(API.supabaseUrl, API.supabaseKey);
+                            
+                            console.log('✅ Client Supabase créé');
+                            
+                            const { data, error } = await supabaseClient.auth.signUp({
                                 email: email,
                                 password: password,
                                 options: {
@@ -1174,7 +1183,7 @@
                             }
                         } else {
                             messageDiv.className = 'message error show';
-                            messageDiv.textContent = '❌ API Supabase non disponible';
+                            messageDiv.textContent = '❌ Configuration Supabase manquante';
                         }
                     } catch (error) {
                         console.error('❌ Erreur:', error);
@@ -1226,8 +1235,15 @@
                     messageDiv.textContent = '⏳ Connexion en cours...';
                     
                     try {
-                        if (typeof API !== 'undefined' && API.supabase) {
-                            const { data, error } = await API.supabase.auth.signInWithPassword({
+                        console.log('🔄 Création client Supabase...');
+                        
+                        if (typeof API !== 'undefined' && API.supabaseUrl && API.supabaseKey) {
+                            const { createClient } = supabase;
+                            const supabaseClient = createClient(API.supabaseUrl, API.supabaseKey);
+                            
+                            console.log('✅ Client Supabase créé');
+                            
+                            const { data, error } = await supabaseClient.auth.signInWithPassword({
                                 email: email,
                                 password: password
                             });
@@ -1248,7 +1264,7 @@
                             }
                         } else {
                             messageDiv.className = 'message error show';
-                            messageDiv.textContent = '❌ API Supabase non disponible';
+                            messageDiv.textContent = '❌ Configuration Supabase manquante';
                         }
                     } catch (error) {
                         console.error('❌ Erreur:', error);
