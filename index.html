@@ -1095,6 +1095,144 @@
             console.error('❌ Objet app introuvable !');
         }
         
+        // Gestionnaires de formulaires
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎯 Initialisation des formulaires...');
+            
+            // FORMULAIRE INSCRIPTION CLIENT
+            const clientRegisterForm = document.getElementById('client-register-form');
+            if (clientRegisterForm) {
+                clientRegisterForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    console.log('📝 Tentative d\'inscription client...');
+                    
+                    const nom = document.getElementById('client-register-nom').value;
+                    const email = document.getElementById('client-register-email').value;
+                    const password = document.getElementById('client-register-password').value;
+                    const code = document.getElementById('client-activation-code').value;
+                    
+                    console.log('📧 Email:', email);
+                    console.log('👤 Nom:', nom);
+                    
+                    // Afficher un message de chargement
+                    const messageDiv = document.getElementById('client-message');
+                    messageDiv.className = 'message info show';
+                    messageDiv.textContent = '⏳ Création du compte...';
+                    
+                    try {
+                        // Appeler l'API d'inscription (si elle existe dans auth.js)
+                        if (typeof auth !== 'undefined' && auth.registerClient) {
+                            const result = await auth.registerClient(email, password, nom, code);
+                            
+                            if (result.success) {
+                                messageDiv.className = 'message success show';
+                                messageDiv.textContent = '✅ Compte créé avec succès !';
+                                
+                                // Rediriger après 2 secondes
+                                setTimeout(() => {
+                                    app.showView('client-login-view', 'client-register-view');
+                                }, 2000);
+                            } else {
+                                messageDiv.className = 'message error show';
+                                messageDiv.textContent = '❌ ' + (result.error || 'Erreur lors de l\'inscription');
+                            }
+                        } else {
+                            // Fallback : utiliser directement Supabase
+                            console.log('⚠️ auth.registerClient non trouvé, utilisation directe de Supabase');
+                            
+                            if (typeof API !== 'undefined' && API.supabase) {
+                                const { data, error } = await API.supabase.auth.signUp({
+                                    email: email,
+                                    password: password,
+                                    options: {
+                                        data: {
+                                            nom: nom,
+                                            code_activation: code || null
+                                        }
+                                    }
+                                });
+                                
+                                if (error) {
+                                    console.error('❌ Erreur Supabase:', error);
+                                    messageDiv.className = 'message error show';
+                                    messageDiv.textContent = '❌ ' + error.message;
+                                } else {
+                                    console.log('✅ Inscription réussie:', data);
+                                    messageDiv.className = 'message success show';
+                                    messageDiv.textContent = '✅ Compte créé ! Vérifiez votre email.';
+                                    
+                                    // Rediriger vers login
+                                    setTimeout(() => {
+                                        app.showView('client-login-view', 'client-register-view');
+                                    }, 2000);
+                                }
+                            } else {
+                                messageDiv.className = 'message error show';
+                                messageDiv.textContent = '❌ API Supabase non disponible';
+                            }
+                        }
+                    } catch (error) {
+                        console.error('❌ Erreur:', error);
+                        messageDiv.className = 'message error show';
+                        messageDiv.textContent = '❌ Erreur: ' + error.message;
+                    }
+                });
+                console.log('✅ Formulaire inscription client connecté');
+            }
+            
+            // FORMULAIRE CONNEXION CLIENT
+            const clientLoginForm = document.getElementById('client-login-form');
+            if (clientLoginForm) {
+                clientLoginForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    console.log('🔐 Tentative de connexion client...');
+                    
+                    const email = document.getElementById('client-email').value;
+                    const password = document.getElementById('client-password').value;
+                    
+                    console.log('📧 Email:', email);
+                    
+                    const messageDiv = document.getElementById('client-message');
+                    messageDiv.className = 'message info show';
+                    messageDiv.textContent = '⏳ Connexion en cours...';
+                    
+                    try {
+                        if (typeof API !== 'undefined' && API.supabase) {
+                            const { data, error } = await API.supabase.auth.signInWithPassword({
+                                email: email,
+                                password: password
+                            });
+                            
+                            if (error) {
+                                console.error('❌ Erreur connexion:', error);
+                                messageDiv.className = 'message error show';
+                                messageDiv.textContent = '❌ ' + error.message;
+                            } else {
+                                console.log('✅ Connexion réussie:', data);
+                                messageDiv.className = 'message success show';
+                                messageDiv.textContent = '✅ Connexion réussie !';
+                                
+                                // TODO: Rediriger vers l'espace client
+                                setTimeout(() => {
+                                    alert('Espace client à développer !');
+                                }, 1000);
+                            }
+                        } else {
+                            messageDiv.className = 'message error show';
+                            messageDiv.textContent = '❌ API Supabase non disponible';
+                        }
+                    } catch (error) {
+                        console.error('❌ Erreur:', error);
+                        messageDiv.className = 'message error show';
+                        messageDiv.textContent = '❌ Erreur: ' + error.message;
+                    }
+                });
+                console.log('✅ Formulaire connexion client connecté');
+            }
+            
+            console.log('✅ Tous les formulaires sont prêts !');
+        });
+        
         // Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').then(function(registration) {
