@@ -753,8 +753,9 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 1.5rem;
-            padding-bottom: 250px; /* BEAUCOUP plus de marge ! */
+            padding-bottom: 300px; /* ÉNORME ! */
             min-height: 100vh;
+            scroll-padding-bottom: 100px;
         }
 
         .client-header {
@@ -865,7 +866,7 @@
 
         .card-banner {
             width: calc(100% + 3rem);
-            height: 120px;
+            height: 160px; /* Augmenté de 120px à 160px */
             margin: -1.5rem -1.5rem 1rem -1.5rem;
             overflow: hidden;
             position: relative;
@@ -1024,9 +1025,10 @@
             color: #7B68A6;
         }
 
-        /* Ajouter une marge supplémentaire à la dernière section */
+        /* Ajouter une marge ÉNORME à la dernière section */
         .section:last-of-type {
-            margin-bottom: 4rem;
+            margin-bottom: 6rem; /* Encore plus ! */
+            padding-bottom: 2rem;
         }
 
         .recompenses-grid {
@@ -2019,8 +2021,31 @@
                 if (loadingScreen) {
                     loadingScreen.classList.add('hidden');
                 }
+                
+                // Vérifier si l'utilisateur est déjà connecté
+                checkUserSession();
             }, 800);
         });
+        
+        // Vérifier la session utilisateur
+        async function checkUserSession() {
+            try {
+                if (typeof API !== 'undefined' && API.supabaseUrl && API.supabaseKey) {
+                    const { createClient } = supabase;
+                    const supabaseClient = createClient(API.supabaseUrl, API.supabaseKey);
+                    
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    
+                    if (session && session.user) {
+                        console.log('🔄 Session trouvée, reconnexion automatique...');
+                        app.showPage('client-dashboard');
+                        initClientDashboard(session.user);
+                    }
+                }
+            } catch (error) {
+                console.log('⚠️ Pas de session active');
+            }
+        }
     </script>
 </body>
 </html>
